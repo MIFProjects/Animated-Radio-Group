@@ -38,6 +38,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int CIRCLE_PADDING_TOP = 20;
 
     public static final int STROKE_WIDTH = 2;
+    public static final int TOTAL_CIRCLE_WIDTH = CIRCLE_PADDING_RIGHT + CIRCLE_PADDING_LEFT + RADIUS * 2 + STROKE_WIDTH;
     public static final int CIRCLE_COLOR = Color.BLUE;
 
     private Paint pathPaint;
@@ -400,7 +401,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 // use all available space (and we will shrink things later
                 // if needed).
                 final int usedHeight = totalWeight == 0 ? mTotalLength : 0;
-                measureChildBeforeLayout(child, i, widthMeasureSpec, 0,
+                measureChildBeforeLayout(child, i, widthMeasureSpec, TOTAL_CIRCLE_WIDTH,
                         heightMeasureSpec, usedHeight);
 
                 final int childHeight = child.getMeasuredHeight();
