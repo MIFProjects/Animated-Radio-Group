@@ -133,7 +133,6 @@ public class AnimatedRadioGroup extends LinearLayout {
                 lastMotionX = -1;
                 lastMotionY = -1;
                 break;
-
         }
         return false;
     }
@@ -249,32 +248,62 @@ public class AnimatedRadioGroup extends LinearLayout {
         //start oval slide animation
         slidingOvalStart = new PointF(src.x, src.y);
 
-        ValueAnimator slideOvalStartY = ValueAnimator.ofFloat(src.y, dst.y);
-        slideOvalStartY.setInterpolator(new AccelerateInterpolator());
-        slideOvalStartY.setDuration(200);
-        slideOvalStartY.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                slidingOvalStart.y = (float) animation.getAnimatedValue();
-                recalculatePath();
-                invalidate();
-            }
-        });
+        ValueAnimator slideOvalStart;
+        ValueAnimator slideOvalEnd;
+        if (getOrientation() == VERTICAL) {
+            slideOvalStart = ValueAnimator.ofFloat(src.y, dst.y);
+            slideOvalStart.setInterpolator(new AccelerateInterpolator());
+            slideOvalStart.setDuration(200);
+            slideOvalStart.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    slidingOvalStart.y = (float) animation.getAnimatedValue();
+                    recalculatePath();
+                    invalidate();
+                }
+            });
 
 
-        //end oval slide animation
-        ValueAnimator slideOvalEndY = ValueAnimator.ofFloat(src.y, dst.y);
-        slideOvalEndY.setInterpolator(new AccelerateInterpolator());
-        slideOvalEndY.setDuration(200);
-        slideOvalEndY.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                ovalActive.y = (float) animation.getAnimatedValue();
-                recalculatePath();
-                invalidate();
-            }
-        });
+            //end oval slide animation
+            slideOvalEnd = ValueAnimator.ofFloat(src.y, dst.y);
+            slideOvalEnd.setInterpolator(new AccelerateInterpolator());
+            slideOvalEnd.setDuration(200);
+            slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    ovalActive.y = (float) animation.getAnimatedValue();
+                    recalculatePath();
+                    invalidate();
+                }
+            });
 
+        } else {
+            slideOvalStart = ValueAnimator.ofFloat(src.x, dst.x);
+            slideOvalStart.setInterpolator(new AccelerateInterpolator());
+            slideOvalStart.setDuration(200);
+            slideOvalStart.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    slidingOvalStart.x = (float) animation.getAnimatedValue();
+                    recalculatePath();
+                    invalidate();
+                }
+            });
+
+
+            //end oval slide animation
+            slideOvalEnd = ValueAnimator.ofFloat(src.x, dst.x);
+            slideOvalEnd.setInterpolator(new AccelerateInterpolator());
+            slideOvalEnd.setDuration(200);
+            slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    ovalActive.x = (float) animation.getAnimatedValue();
+                    recalculatePath();
+                    invalidate();
+                }
+            });
+        }
         //start oval growth animation
         ValueAnimator slideOvalStartGrow = ValueAnimator.ofFloat(RADIUS / SLIDING_RADIUS_COEFFICIENT, radius);
         slideOvalStartGrow.setInterpolator(new OvershootInterpolator(6));
@@ -301,8 +330,8 @@ public class AnimatedRadioGroup extends LinearLayout {
         });
 
 
-        animatorSet.play(slideOvalStartY).before(slideOvalEndY);
-        animatorSet.play(slideOvalEndY).with(slideOvalStartGrow).with(slideOvalEndReduction);
+        animatorSet.play(slideOvalStart).before(slideOvalEnd);
+        animatorSet.play(slideOvalEnd).with(slideOvalStartGrow).with(slideOvalEndReduction);
 
         slidingOvalStartRadius = RADIUS / SLIDING_RADIUS_COEFFICIENT;
         recalculatePath();
@@ -312,12 +341,19 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     private void recalculatePath() {
         path = new Path();
-
-        path.moveTo(ovalActive.x - ovalActiveRadius, ovalActive.y);
-        path.lineTo(ovalActive.x + ovalActiveRadius, ovalActive.y);
-        path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
-        path.lineTo(slidingOvalStart.x - slidingOvalStartRadius, slidingOvalStart.y);
-        path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
+        if (getOrientation() == VERTICAL) {
+            path.moveTo(ovalActive.x - ovalActiveRadius, ovalActive.y);
+            path.lineTo(ovalActive.x + ovalActiveRadius, ovalActive.y);
+            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
+            path.lineTo(slidingOvalStart.x - slidingOvalStartRadius, slidingOvalStart.y);
+            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
+        } else  {
+            path.moveTo(ovalActive.x, ovalActive.y - ovalActiveRadius);
+            path.lineTo(ovalActive.x, ovalActive.y + ovalActiveRadius);
+            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, slidingOvalStart.x, slidingOvalStart.y + slidingOvalStartRadius);
+            path.lineTo(slidingOvalStart.x, slidingOvalStart.y - slidingOvalStartRadius);
+            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, ovalActive.x, ovalActive.y - ovalActiveRadius);
+        }
     }
 
 
@@ -360,7 +396,6 @@ public class AnimatedRadioGroup extends LinearLayout {
 
         final int baselineChildIndex = getBaselineAlignedChildIndex();
 
-        int largestChildHeight = Integer.MIN_VALUE;
         int consumedExcessSpace = 0;
 
         // See how tall everyone is. Also remember max width.
@@ -517,10 +552,9 @@ public class AnimatedRadioGroup extends LinearLayout {
                     final int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(
                             Math.max(0, childHeight), MeasureSpec.EXACTLY);
 
-                    int circleArea = RADIUS * 2 + CIRCLE_PADDING_RIGHT + CIRCLE_PADDING_LEFT + STROKE_WIDTH;
 
                     final int childWidthMeasureSpec = getChildMeasureSpec(widthMeasureSpec,
-                            getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin + circleArea,
+                            getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin + TOTAL_CIRCLE_WIDTH,
                             lp.width);
                     child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
 
@@ -634,7 +668,6 @@ public class AnimatedRadioGroup extends LinearLayout {
 
         final boolean isExactly = widthMode == MeasureSpec.EXACTLY;
 
-        int largestChildWidth = Integer.MIN_VALUE;
         int usedExcessSpace = 0;
 
         // See how wide everyone is. Also remember max height.
@@ -1001,19 +1034,17 @@ public class AnimatedRadioGroup extends LinearLayout {
                 final int absoluteGravity = Gravity.getAbsoluteGravity(gravity, layoutDirection);
                 switch (absoluteGravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
                     case Gravity.CENTER_HORIZONTAL:
-                        //todo: add circle paddings
                         childLeft = paddingLeft + ((childSpace - childWidth) / 2)
                                 + lp.leftMargin - lp.rightMargin;
                         break;
 
                     case Gravity.RIGHT:
-                        //todo: add circle paddings
                         childLeft = childRight - childWidth - lp.rightMargin;
                         break;
 
                     case Gravity.LEFT:
                     default:
-                        childLeft = paddingLeft + lp.leftMargin + CIRCLE_PADDING_RIGHT  + CIRCLE_PADDING_LEFT + RADIUS * 2 + STROKE_WIDTH;
+                        childLeft = paddingLeft + lp.leftMargin + TOTAL_CIRCLE_WIDTH;
                         break;
                 }
 
@@ -1133,7 +1164,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                         break;
                 }
 
-                childLeft += lp.leftMargin;
+                childLeft += lp.leftMargin + TOTAL_CIRCLE_WIDTH;
                 setChildFrame(child, childLeft, childTop, childWidth, childHeight);
                 childLeft += childWidth + lp.rightMargin;
             }
@@ -1143,7 +1174,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     private void setChildFrame(View child, int left, int top, int width, int height) {
         child.layout(left, top, left + width, top + height);
 
-        circles.add(new PointF(RADIUS + STROKE_WIDTH + CIRCLE_PADDING_LEFT, top + RADIUS + CIRCLE_PADDING_TOP));
+        circles.add(new PointF(left - RADIUS - STROKE_WIDTH - CIRCLE_PADDING_RIGHT, top + RADIUS + CIRCLE_PADDING_TOP + STROKE_WIDTH));
     }
 
 }
