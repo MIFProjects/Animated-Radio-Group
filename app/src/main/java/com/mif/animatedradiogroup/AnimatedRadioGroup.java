@@ -484,7 +484,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
 
             final int margin = lp.leftMargin + lp.rightMargin;
-            final int measuredWidth = child.getMeasuredWidth() + margin;
+            final int measuredWidth = child.getMeasuredWidth() + margin + TOTAL_CIRCLE_WIDTH;
             maxWidth = Math.max(maxWidth, measuredWidth);
             childState = combineMeasuredStates(childState, child.getMeasuredState());
 
@@ -736,7 +736,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 } else {
                     final int totalLength = mTotalLength;
                     mTotalLength = Math.max(totalLength, totalLength + childWidth + lp.leftMargin
-                            + lp.rightMargin);
+                            + lp.rightMargin + TOTAL_CIRCLE_WIDTH);
                 }
             }
 
