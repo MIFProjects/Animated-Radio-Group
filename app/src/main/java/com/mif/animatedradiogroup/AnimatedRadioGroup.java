@@ -722,7 +722,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 measureChildBeforeLayout(child, i, widthMeasureSpec, usedWidth,
                         heightMeasureSpec, 0);
 
-                final int childWidth = child.getMeasuredWidth();
+                final int childWidth = child.getMeasuredWidth() + TOTAL_CIRCLE_WIDTH;
                 if (useExcessSpace) {
                     // Restore the original width and record how much space
                     // we've allocated to excess-only children so that we can
@@ -736,7 +736,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 } else {
                     final int totalLength = mTotalLength;
                     mTotalLength = Math.max(totalLength, totalLength + childWidth + lp.leftMargin
-                            + lp.rightMargin + TOTAL_CIRCLE_WIDTH);
+                            + lp.rightMargin);
                 }
             }
 
