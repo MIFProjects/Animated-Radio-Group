@@ -1,118 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="com.mif.animatedradiogroup.MainActivity">
 
     <com.mif.animatedradiogroup.AnimatedRadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text2"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text3"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text4"/>
-
-    </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-    <com.mif.animatedradiogroup.AnimatedRadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text2"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text3"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text4"/>
-
-    </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-    <com.mif.animatedradiogroup.AnimatedRadioGroup
+        android:id="@+id/animatedRG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="#cacaca"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:circleFillColor="#464646"
+        app:circleCenterFillRadius="7dp"
+        app:circleStrokeColor="#202020"
+        app:circlePaddingRight="10dp"
+        app:circlePaddingLeft="10dp"
+        app:circlePaddingTop="10dp"
+        app:circlePaddingBottom="10dp"
+        app:separatorColor="#ffffff"
+        app:setSeparator="true"
+        app:circleRadius="10dp"
+        app:circleGravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="24dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Textee" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text2"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Text 2" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text3"/>
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Text 3" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="8dp"
-            android:text="Text4"/>
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Text 4" />
 
     </com.mif.animatedradiogroup.AnimatedRadioGroup>
 
-</LinearLayout>
+    <com.mif.animatedradiogroup.AnimatedRadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/animatedRG"
+        app:circlePaddingTop="0dp"
+        android:orientation="vertical"
+        app:circleRadius="15dp"
+        app:circlePaddingLeft="10dp"
+        app:circleStrokeColor="#fff"
+        app:setSeparator="true"
+        app:circleGravity="center"
+        app:circlePaddingBottom="0dp"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="#457eb4"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="text test\n ffdfffffdddddddddddddddddddddddddddd"/>
+            </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#67d67f"
+            android:src="@drawable/icon"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:background="#cad25a"
+            android:layout_height="50dp"
+            android:text="button"/>
+
+
+    </com.mif.animatedradiogroup.AnimatedRadioGroup>
+
+
+
+</RelativeLayout>

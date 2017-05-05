@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AnimatedRadioGroup">
+        <attr name="circleFillColor" format="color" />
+        <attr name="circleStrokeColor" format="color" />
+        <attr name="circleRadius" format="dimension" />
+        <attr name="circleCenterFillRadius" format="dimension" />
+        <attr name="circlePaddingTop" format="dimension" />
+        <attr name="circlePaddingBottom" format="dimension" />
+        <attr name="circlePaddingLeft" format="dimension" />
+        <attr name="circlePaddingRight" format="dimension" />
+        <attr name="circleStrokeWidth" format="dimension" />
+        <attr name="circleGravity">
+            <flag name="bottom" value="80" />
+            <flag name="center" value="17" />
+            <flag name="top" value="48" />
+        </attr>
+        <attr name="setSeparator" format="boolean" />
+        <attr name="separatorColor" format="color" />
+    </declare-styleable>
+</resources>
