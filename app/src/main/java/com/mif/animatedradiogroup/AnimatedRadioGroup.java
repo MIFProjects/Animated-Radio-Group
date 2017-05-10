@@ -2,7 +2,6 @@ package com.mif.animatedradiogroup;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -22,8 +21,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -35,7 +32,6 @@ import java.util.List;
 
 public class AnimatedRadioGroup extends LinearLayout {
 
-    private static final int SLIDING_RADIUS_COEFFICIENT = 2;
     private static final int RADIUS = 20;
     private static final int CIRCLE_PADDING_RIGHT = 50;
     private static final int CIRCLE_PADDING_LEFT = 5;
@@ -54,14 +50,14 @@ public class AnimatedRadioGroup extends LinearLayout {
     private List<PointF> circles = new ArrayList<>();
     private List<Rect> rects = new ArrayList<>();
     private List<Integer> bgColors = new ArrayList<Integer>();
-    private PointF slidingOvalStart;
-    private PointF ovalActive;
+
+    public PointF ovalActive;
     private Path path;
 
     private int color = CIRCLE_COLOR;
     private int colorStroke = color;
     private int radius = RADIUS;
-    private int circleCenterFillRadius = radius;
+    public int circleCenterFillRadius = radius;
     private int circlePaddingRight = CIRCLE_PADDING_RIGHT;
     private int circlePaddingLeft = CIRCLE_PADDING_LEFT;
     private int circlePaddingTop = CIRCLE_PADDING_TOP;
@@ -71,9 +67,11 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     private int separatorWidth = 2;
 
-    private float slidingOvalStartRadius = radius / SLIDING_RADIUS_COEFFICIENT;
-    private float ovalActiveRadius = radius;
+
+    public float ovalActiveRadius = radius;
+
     private boolean isAnimating = false;
+
     private boolean isSeparate = false;
     private int separatorColor = Color.WHITE;
     private AnimatorSet animatorSet;
@@ -95,6 +93,8 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int INDEX_BOTTOM = 2;
     private static final int INDEX_FILL = 3;
     private int mGravity = Gravity.START | Gravity.TOP;
+
+    CanvasAnimator canvasAnimator;
 
     private AnimatedRadioGroup.OnCheckedChangeListener mOnCheckedChangeListener;
 
@@ -164,6 +164,46 @@ public class AnimatedRadioGroup extends LinearLayout {
         bgPaint.setStyle(Paint.Style.FILL);
 
         separatorRect = new Rect();
+
+
+        //////////////
+        CircleItem circleItem = new CircleItem();
+        circleItem.setOutlineCircleRadius(radius);
+        circleItem.setCenterFillCircleRadius(circleCenterFillRadius);
+        circleItem.setCenterFillCirclePaint(pathPaint);
+
+        canvasAnimator = new FadeAnimation(circleItem);
+        canvasAnimator.setParent(this);
+        canvasAnimator.setCircles(circles);
+
+
+//        canvasAnimator.setAnimatorListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//                Log.d("animationLife", "animation start");
+//                isAnimating = true;
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                isAnimating = false;
+//                ovalActiveRadius = circleCenterFillRadius;
+//                ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
+//                Log.d("animationLife", "animation end");
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//                Log.d("animationLife", "animation cancel");
+//                isAnimating = false;
+//                ovalActiveRadius = circleCenterFillRadius;
+//                ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//            }
+//        });
     }
 
     @Override
@@ -191,14 +231,17 @@ public class AnimatedRadioGroup extends LinearLayout {
             canvas.drawCircle(circle.x, circle.y, radius, inactivePaint);
         }
 
-        if (!circles.isEmpty()) {
-            canvas.drawCircle(ovalActive.x, ovalActive.y, circleCenterFillRadius, pathPaint);
-        }
+//        Log.d("circleCenterFillRadius", "circleCenterFillRadius " + circleCenterFillRadius + " slidingOvalStartRadius " + slidingOvalStartRadius);
+//        if (!circles.isEmpty()) {
+//            canvas.drawCircle(ovalActive.x, ovalActive.y, circleCenterFillRadius, pathPaint);
+//        }
+        Log.d("AnimatedRadioGroup", "onDraw");
+        canvasAnimator.onDraw(canvas);
 
-        if (isAnimating) {
-            canvas.drawCircle(slidingOvalStart.x, slidingOvalStart.y, slidingOvalStartRadius, pathPaint);
-            canvas.drawPath(path, pathPaint);
-        }
+//        if (isAnimating) {
+//            canvas.drawCircle(slidingOvalStart.x, slidingOvalStart.y, slidingOvalStartRadius, pathPaint);
+//            canvas.drawPath(path, pathPaint);
+//        }
     }
 
     @Override
@@ -265,7 +308,9 @@ public class AnimatedRadioGroup extends LinearLayout {
         PointF dst = circles.get(clickedCircleIndex);
         PointF src = circles.get(activeIndex);
         activeIndex = clickedCircleIndex;
+        canvasAnimator.setActiveIndex(activeIndex);
         animateSliding(src, dst);
+
     }
 
     private void resetAnimation() {
@@ -306,141 +351,16 @@ public class AnimatedRadioGroup extends LinearLayout {
     }
 
     private void animateSliding(PointF src, PointF dst) {
-        animatorSet = new AnimatorSet();
-        animatorSet.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                isAnimating = true;
-            }
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                isAnimating = false;
-                ovalActiveRadius = circleCenterFillRadius;
-                ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
-            }
+        canvasAnimator.setSourcePoint(src);
+        canvasAnimator.setDestinationPoint(dst);
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                isAnimating = false;
-                ovalActiveRadius = circleCenterFillRadius;
-                ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
-            }
+        animatorSet = canvasAnimator.getAnimation();
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-
-        //start oval slide animation
-        slidingOvalStart = new PointF(src.x, src.y);
-
-        ValueAnimator slideOvalStart;
-        ValueAnimator slideOvalEnd;
-        if (getOrientation() == VERTICAL) {
-            slideOvalStart = ValueAnimator.ofFloat(src.y, dst.y);
-            slideOvalStart.setInterpolator(new AccelerateInterpolator());
-            slideOvalStart.setDuration(200);
-            slideOvalStart.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    slidingOvalStart.y = (float) animation.getAnimatedValue();
-                    recalculatePath();
-                    invalidate();
-                }
-            });
-
-
-            //end oval slide animation
-            slideOvalEnd = ValueAnimator.ofFloat(src.y, dst.y);
-            slideOvalEnd.setInterpolator(new AccelerateInterpolator());
-            slideOvalEnd.setDuration(200);
-            slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    ovalActive.y = (float) animation.getAnimatedValue();
-                    recalculatePath();
-                    invalidate();
-                }
-            });
-
-        } else {
-            slideOvalStart = ValueAnimator.ofFloat(src.x, dst.x);
-            slideOvalStart.setInterpolator(new AccelerateInterpolator());
-            slideOvalStart.setDuration(200);
-            slideOvalStart.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    slidingOvalStart.x = (float) animation.getAnimatedValue();
-                    recalculatePath();
-                    invalidate();
-                }
-            });
-
-
-            //end oval slide animation
-            slideOvalEnd = ValueAnimator.ofFloat(src.x, dst.x);
-            slideOvalEnd.setInterpolator(new AccelerateInterpolator());
-            slideOvalEnd.setDuration(200);
-            slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    ovalActive.x = (float) animation.getAnimatedValue();
-                    recalculatePath();
-                    invalidate();
-                }
-            });
-        }
-        //start oval growth animation
-        ValueAnimator slideOvalStartGrow = ValueAnimator.ofFloat(circleCenterFillRadius / SLIDING_RADIUS_COEFFICIENT, circleCenterFillRadius);
-        slideOvalStartGrow.setInterpolator(new OvershootInterpolator(6));
-        slideOvalStartGrow.setDuration(400);
-        slideOvalStartGrow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                slidingOvalStartRadius = (float) animation.getAnimatedValue();
-                recalculatePath();
-                invalidate();
-            }
-        });
-
-        //end oval reduction animation
-        ValueAnimator slideOvalEndReduction = ValueAnimator.ofFloat(circleCenterFillRadius, circleCenterFillRadius / SLIDING_RADIUS_COEFFICIENT);
-        slideOvalEndReduction.setInterpolator(new AccelerateInterpolator());
-        slideOvalEndReduction.setDuration(200);
-        slideOvalEndReduction.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                ovalActiveRadius = (float) animation.getAnimatedValue();
-                recalculatePath();
-            }
-        });
-
-
-        animatorSet.play(slideOvalStart).before(slideOvalEnd);
-        animatorSet.play(slideOvalEnd).with(slideOvalStartGrow).with(slideOvalEndReduction);
-
-        slidingOvalStartRadius = circleCenterFillRadius / SLIDING_RADIUS_COEFFICIENT;
-        recalculatePath();
+//        slidingOvalStartRadius = circleCenterFillRadius / SLIDING_RADIUS_COEFFICIENT;
+//        recalculatePath();
 
         animatorSet.start();
-    }
-
-    private void recalculatePath() {
-        path = new Path();
-        if (getOrientation() == VERTICAL) {
-            path.moveTo(ovalActive.x - ovalActiveRadius, ovalActive.y);
-            path.lineTo(ovalActive.x + ovalActiveRadius, ovalActive.y);
-            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
-            path.lineTo(slidingOvalStart.x - slidingOvalStartRadius, slidingOvalStart.y);
-            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
-        } else {
-            path.moveTo(ovalActive.x, ovalActive.y - ovalActiveRadius);
-            path.lineTo(ovalActive.x, ovalActive.y + ovalActiveRadius);
-            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, slidingOvalStart.x, slidingOvalStart.y + slidingOvalStartRadius);
-            path.lineTo(slidingOvalStart.x, slidingOvalStart.y - slidingOvalStartRadius);
-            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, ovalActive.x, ovalActive.y - ovalActiveRadius);
-        }
     }
 
 
@@ -1071,6 +991,7 @@ public class AnimatedRadioGroup extends LinearLayout {
         }
 
         ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
+        canvasAnimator.setOvalActive(ovalActive);
     }
 
     /**
@@ -1313,7 +1234,7 @@ public class AnimatedRadioGroup extends LinearLayout {
             setSelection(index);
     }
 
-    public void setOnCheckedChangeListener(OnCheckedChangeListener listener){
+    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         mOnCheckedChangeListener = listener;
     }
 
@@ -1324,4 +1245,36 @@ public class AnimatedRadioGroup extends LinearLayout {
     public interface OnCheckedChangeListener {
         public void onCheckedChanged(@IdRes int checkedId);
     }
+}
+
+class CircleItem {
+
+    private int outlineCircleRadius;
+    private int centerFillCircleRadius;
+    private Paint centerFillCirclePaint;
+
+    public int getOutlineCircleRadius() {
+        return outlineCircleRadius;
+    }
+
+    public void setOutlineCircleRadius(int outlineCircleRadius) {
+        this.outlineCircleRadius = outlineCircleRadius;
+    }
+
+    public int getCenterFillCircleRadius() {
+        return centerFillCircleRadius;
+    }
+
+    public void setCenterFillCircleRadius(int centerFillCircleRadius) {
+        this.centerFillCircleRadius = centerFillCircleRadius;
+    }
+
+    public Paint getCenterFillCirclePaint() {
+        return centerFillCirclePaint;
+    }
+
+    public void setCenterFillCirclePaint(Paint centerFillCirclePaint) {
+        this.centerFillCirclePaint = centerFillCirclePaint;
+    }
+
 }

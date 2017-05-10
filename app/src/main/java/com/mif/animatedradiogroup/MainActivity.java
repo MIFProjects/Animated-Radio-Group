@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        WebView view = new WebView(this);
+
 
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
 //            @Override
