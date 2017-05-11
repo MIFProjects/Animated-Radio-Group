@@ -9,10 +9,7 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,7 @@ import static android.widget.LinearLayout.VERTICAL;
  * Created by v_alekseev on 08.05.17.
  */
 
-public class BubbleAnimation implements CanvasAnimator {
+public class ThreadAnimation implements CanvasAnimator {
 
     public static final int SLIDING_RADIUS_COEFFICIENT = 2;
     public float slidingOvalStartRadius;
@@ -40,7 +37,7 @@ public class BubbleAnimation implements CanvasAnimator {
     private PointF slidingOvalStart;
     private float ovalActiveRadius;
 
-    public BubbleAnimation(CircleItem circleItem) {
+    public ThreadAnimation(CircleItem circleItem) {
 
         circleCenterRadius = circleItem.getCenterFillCircleRadius();
         ovalActiveRadius = circleItem.getOutlineCircleRadius();
@@ -173,46 +170,69 @@ public class BubbleAnimation implements CanvasAnimator {
             });
         }
 
-        //start oval growth animation
-        ValueAnimator slideOvalStartGrow = ValueAnimator.ofFloat(circleCenterRadius / SLIDING_RADIUS_COEFFICIENT, circleCenterRadius);
-        slideOvalStartGrow.setInterpolator(new OvershootInterpolator(6));
-        slideOvalStartGrow.setDuration(400);
-        slideOvalStartGrow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                slidingOvalStartRadius = (float) animation.getAnimatedValue();
-                recalculatePath();
-                parent.invalidate();
-            }
-        });
+//        //start oval growth animation
+//        ValueAnimator slideOvalStartGrow = ValueAnimator.ofFloat(circleCenterRadius / SLIDING_RADIUS_COEFFICIENT, circleCenterRadius);
+//        slideOvalStartGrow.setInterpolator(new OvershootInterpolator(6));
+//        slideOvalStartGrow.setDuration(400);
+//        slideOvalStartGrow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                slidingOvalStartRadius = (float) animation.getAnimatedValue();
+//                recalculatePath();
+//                parent.invalidate();
+//            }
+//        });
 
         //end oval reduction animation
-        ValueAnimator slideOvalEndReduction = ValueAnimator.ofFloat(circleCenterRadius, circleCenterRadius / SLIDING_RADIUS_COEFFICIENT);
-        slideOvalEndReduction.setInterpolator(new AccelerateInterpolator());
-        slideOvalEndReduction.setDuration(200);
-        slideOvalEndReduction.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                ovalActiveRadius = (float) animation.getAnimatedValue();
-                recalculatePath();
-            }
-        });
+//        ValueAnimator slideOvalEndReduction = ValueAnimator.ofFloat(circleCenterRadius, circleCenterRadius / SLIDING_RADIUS_COEFFICIENT);
+//        slideOvalEndReduction.setInterpolator(new AccelerateInterpolator());
+//        slideOvalEndReduction.setDuration(200);
+//        slideOvalEndReduction.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                ovalActiveRadius = (float) animation.getAnimatedValue();
+//                recalculatePath();
+//            }
+//        });
 
-        animatorSet.play(slideOvalStart).before(slideOvalEnd);
-        animatorSet.play(slideOvalEnd).with(slideOvalStartGrow).with(slideOvalEndReduction);
+//        animatorSet.play(slideOvalStart).before(slideOvalEnd);
+//        animatorSet.play(slideOvalEnd).with(slideOvalStartGrow).with(slideOvalEndReduction);
 
+//        animatorSet.play(slideOvalStart).before(slideOvalEnd);
+//        animatorSet.play(slideOvalEnd);
+
+        List<Animator> animationList = new ArrayList<>();
+
+        animationList.add(slideOvalStart);
+        animationList.add(slideOvalEnd);
+
+        animatorSet.playSequentially(animationList);
 
         return animatorSet;
     }
 
     private void recalculatePath() {
         path = new Path();
+//        if (parent.getOrientation() == VERTICAL) {
+//            path.moveTo(ovalActive.x - ovalActiveRadius, ovalActive.y);
+//            path.lineTo(ovalActive.x + ovalActiveRadius, ovalActive.y);
+//            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
+//            path.lineTo(slidingOvalStart.x - slidingOvalStartRadius, slidingOvalStart.y);
+//            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
+//        } else {
+//            path.moveTo(ovalActive.x, ovalActive.y - ovalActiveRadius);
+//            path.lineTo(ovalActive.x, ovalActive.y + ovalActiveRadius);
+//            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, slidingOvalStart.x, slidingOvalStart.y + slidingOvalStartRadius);
+//            path.lineTo(slidingOvalStart.x, slidingOvalStart.y - slidingOvalStartRadius);
+//            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, ovalActive.x, ovalActive.y - ovalActiveRadius);
+//        }
+
         if (parent.getOrientation() == VERTICAL) {
-            path.moveTo(ovalActive.x - ovalActiveRadius, ovalActive.y);
-            path.lineTo(ovalActive.x + ovalActiveRadius, ovalActive.y);
-            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
-            path.lineTo(slidingOvalStart.x - slidingOvalStartRadius, slidingOvalStart.y);
-            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
+            path.moveTo(ovalActive.x, ovalActive.y);
+            path.lineTo(ovalActive.x, ovalActive.y);
+//            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
+            path.lineTo(slidingOvalStart.x, slidingOvalStart.y);
+//            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
         } else {
             path.moveTo(ovalActive.x, ovalActive.y - ovalActiveRadius);
             path.lineTo(ovalActive.x, ovalActive.y + ovalActiveRadius);

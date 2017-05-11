@@ -1,5 +1,7 @@
 package com.mif.animatedradiogroup;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        WebView view = new WebView(this);
 
 
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {

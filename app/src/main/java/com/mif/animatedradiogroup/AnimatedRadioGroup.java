@@ -1,6 +1,5 @@
 package com.mif.animatedradiogroup;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -151,6 +150,7 @@ public class AnimatedRadioGroup extends LinearLayout {
         pathPaint.setColor(color);
         pathPaint.setStyle(Paint.Style.FILL);
 
+
         inactivePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         inactivePaint.setColor(colorStroke);
         inactivePaint.setStyle(Paint.Style.STROKE);
@@ -172,9 +172,14 @@ public class AnimatedRadioGroup extends LinearLayout {
         circleItem.setCenterFillCircleRadius(circleCenterFillRadius);
         circleItem.setCenterFillCirclePaint(pathPaint);
 
-        canvasAnimator = new FadeAnimation(circleItem);
+        /**
+         * BubbleAnimation
+         * JumpAnimation
+         * FadeAnimation
+         * MagnetAnimation
+         */
+        canvasAnimator = new ThreadAnimation(circleItem);
         canvasAnimator.setParent(this);
-        canvasAnimator.setCircles(circles);
 
 
 //        canvasAnimator.setAnimatorListener(new Animator.AnimatorListener() {
@@ -236,7 +241,9 @@ public class AnimatedRadioGroup extends LinearLayout {
 //            canvas.drawCircle(ovalActive.x, ovalActive.y, circleCenterFillRadius, pathPaint);
 //        }
         Log.d("AnimatedRadioGroup", "onDraw");
-        canvasAnimator.onDraw(canvas);
+        if (!circles.isEmpty()) {
+            canvasAnimator.onDraw(canvas);
+        }
 
 //        if (isAnimating) {
 //            canvas.drawCircle(slidingOvalStart.x, slidingOvalStart.y, slidingOvalStartRadius, pathPaint);
@@ -308,7 +315,6 @@ public class AnimatedRadioGroup extends LinearLayout {
         PointF dst = circles.get(clickedCircleIndex);
         PointF src = circles.get(activeIndex);
         activeIndex = clickedCircleIndex;
-        canvasAnimator.setActiveIndex(activeIndex);
         animateSliding(src, dst);
 
     }
@@ -354,11 +360,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
         canvasAnimator.setSourcePoint(src);
         canvasAnimator.setDestinationPoint(dst);
-
         animatorSet = canvasAnimator.getAnimation();
-
-//        slidingOvalStartRadius = circleCenterFillRadius / SLIDING_RADIUS_COEFFICIENT;
-//        recalculatePath();
 
         animatorSet.start();
     }
@@ -990,8 +992,10 @@ public class AnimatedRadioGroup extends LinearLayout {
             layoutHorizontal(l, t, r, b);
         }
 
-        ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
-        canvasAnimator.setOvalActive(ovalActive);
+        if (!circles.isEmpty()) {
+            ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
+            canvasAnimator.setOvalActive(ovalActive);
+        }
     }
 
     /**
