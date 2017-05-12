@@ -11,7 +11,7 @@ import android.util.Log;
  * Created by v_alekseev on 12.05.17.
  */
 
-public class CanvasMainAnimator implements CanvasAnimator {
+public abstract class CanvasMainAnimator {
 
     protected Animator.AnimatorListener animatorListener;
     protected AnimatedRadioGroup parent;
@@ -57,32 +57,26 @@ public class CanvasMainAnimator implements CanvasAnimator {
         };
     }
 
-    @Override
     public void onDraw(Canvas canvas) {
 
     }
 
-    @Override
     public void setParent(AnimatedRadioGroup view) {
         this.parent = view;
     }
 
-    @Override
     public void setDestinationPoint(PointF dst) {
         this.dst = dst;
     }
 
-    @Override
     public void setSourcePoint(PointF src) {
         this.src = src;
     }
 
-    @Override
     public AnimatorSet getAnimation() {
         return null;
     }
 
-    @Override
     public void setOvalActive(PointF ovalActive) {
         this.ovalActive = ovalActive;
     }

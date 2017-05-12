@@ -95,7 +95,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int INDEX_FILL = 3;
     private int mGravity = Gravity.START | Gravity.TOP;
 
-    CanvasAnimator canvasAnimator;
+    CanvasMainAnimator canvasAnimator;
 
     private AnimatedRadioGroup.OnCheckedChangeListener mOnCheckedChangeListener;
 
@@ -178,28 +178,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
 
         if (!isInEditMode()) {
-            switch (animationType) {
-                case JUMP_ANIMATION:
-                    canvasAnimator = new JumpAnimation(circleItem);
-                    break;
-                case FADE_ANIMATION:
-                    canvasAnimator = new FadeAnimation(circleItem);
-                    break;
-                case GRAVITY_ANIMATION:
-                    canvasAnimator = new GravityAnimation(circleItem);
-                    break;
-                case YOYO_ANIMATION:
-                    canvasAnimator = new YoyoAnimation(circleItem);
-                    break;
-                case NONE_ANIMATION:
-                    canvasAnimator = new NoneAnimation(circleItem);
-                    break;
-                default:
-                    canvasAnimator = new BubbleAnimation(circleItem);
-                    break;
-            }
-
-            canvasAnimator.setParent(this);
+            setupAnimation(circleItem);
         }
 
 
@@ -230,6 +209,34 @@ public class AnimatedRadioGroup extends LinearLayout {
 //            public void onAnimationRepeat(Animator animation) {
 //            }
 //        });
+    }
+
+    private void setupAnimation(CircleItem circleItem) {
+/*
+        switch (animationType) {
+            case JUMP_ANIMATION:
+                canvasAnimator = new JumpAnimation(circleItem);
+                break;
+            case FADE_ANIMATION:
+                canvasAnimator = new FadeAnimation(circleItem);
+                break;
+            case GRAVITY_ANIMATION:
+                canvasAnimator = new GravityAnimation(circleItem);
+                break;
+            case YOYO_ANIMATION:
+                canvasAnimator = new YoyoAnimation(circleItem);
+                break;
+            case NONE_ANIMATION:
+                canvasAnimator = new NoneAnimation(circleItem);
+                break;
+            default:
+                canvasAnimator = new BubbleAnimation(circleItem);
+                break;
+        }
+*/
+        canvasAnimator = new BubbleAnimation(circleItem);
+
+        canvasAnimator.setParent(this);
     }
 
     @Override
