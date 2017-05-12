@@ -1,12 +1,16 @@
 package com.mif.animatedradiogroup;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
-import android.graphics.Path;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -14,16 +18,20 @@ import static android.widget.LinearLayout.VERTICAL;
  * Created by v_alekseev on 08.05.17.
  */
 
-class BubbleAnimation extends CanvasMainAnimator {
+class YoyoAnimation extends CanvasMainAnimator {
 
     private static final int SLIDING_RADIUS_COEFFICIENT = 2;
     private float slidingOvalStartRadius;
-    private Path path;
+    private Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private PointF slidingOvalStart;
 
 
-    BubbleAnimation(CircleItem circleItem) {
+    YoyoAnimation(CircleItem circleItem) {
         super(circleItem);
+
+        linePaint.setColor(pathPaint.getColor());
+        linePaint.setStyle(pathPaint.getStyle());
+        linePaint.setStrokeWidth(3f);
         slidingOvalStartRadius = circleCenterRadius / SLIDING_RADIUS_COEFFICIENT;
     }
 
@@ -34,7 +42,7 @@ class BubbleAnimation extends CanvasMainAnimator {
 
         if (isAnimating) {
             canvas.drawCircle(slidingOvalStart.x, slidingOvalStart.y, slidingOvalStartRadius, pathPaint);
-            canvas.drawPath(path, pathPaint);
+            canvas.drawLine(ovalActive.x, ovalActive.y, slidingOvalStart.x, slidingOvalStart.y, linePaint);
         }
     }
 
@@ -58,7 +66,6 @@ class BubbleAnimation extends CanvasMainAnimator {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     slidingOvalStart.y = (float) animation.getAnimatedValue();
-                    recalculatePath();
                     parent.invalidate();
                 }
             });
@@ -66,13 +73,12 @@ class BubbleAnimation extends CanvasMainAnimator {
 
             //end oval slide animation
             slideOvalEnd = ValueAnimator.ofFloat(src.y, dst.y);
-            slideOvalEnd.setInterpolator(new AccelerateInterpolator());
+            slideOvalEnd.setInterpolator(new OvershootInterpolator(3));
             slideOvalEnd.setDuration(200);
             slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     ovalActive.y = (float) animation.getAnimatedValue();
-                    recalculatePath();
                     parent.invalidate();
                 }
             });
@@ -85,7 +91,6 @@ class BubbleAnimation extends CanvasMainAnimator {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     slidingOvalStart.x = (float) animation.getAnimatedValue();
-                    recalculatePath();
                     parent.invalidate();
                 }
             });
@@ -93,66 +98,25 @@ class BubbleAnimation extends CanvasMainAnimator {
 
             //end oval slide animation
             slideOvalEnd = ValueAnimator.ofFloat(src.x, dst.x);
-            slideOvalEnd.setInterpolator(new AccelerateInterpolator());
+            slideOvalEnd.setInterpolator(new OvershootInterpolator(3));
             slideOvalEnd.setDuration(200);
             slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     ovalActive.x = (float) animation.getAnimatedValue();
-                    recalculatePath();
                     parent.invalidate();
                 }
             });
         }
 
-        //start oval growth animation
-        ValueAnimator slideOvalStartGrow = ValueAnimator.ofFloat(circleCenterRadius / SLIDING_RADIUS_COEFFICIENT, circleCenterRadius);
-        slideOvalStartGrow.setInterpolator(new OvershootInterpolator(6));
-        slideOvalStartGrow.setDuration(400);
-        slideOvalStartGrow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                slidingOvalStartRadius = (float) animation.getAnimatedValue();
-                recalculatePath();
-                parent.invalidate();
-            }
-        });
+        List<Animator> animationList = new ArrayList<>();
 
-        //end oval reduction animation
-        ValueAnimator slideOvalEndReduction = ValueAnimator.ofFloat(circleCenterRadius, circleCenterRadius / SLIDING_RADIUS_COEFFICIENT);
-        slideOvalEndReduction.setInterpolator(new AccelerateInterpolator());
-        slideOvalEndReduction.setDuration(200);
-        slideOvalEndReduction.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                ovalActiveRadius = (float) animation.getAnimatedValue();
-                recalculatePath();
-            }
-        });
+        animationList.add(slideOvalStart);
+        animationList.add(slideOvalEnd);
 
-        animatorSet.play(slideOvalStart).before(slideOvalEnd);
-        animatorSet.play(slideOvalEnd).with(slideOvalStartGrow).with(slideOvalEndReduction);
-
+        animatorSet.playSequentially(animationList);
 
         return animatorSet;
     }
-
-    private void recalculatePath() {
-        path = new Path();
-        if (parent.getOrientation() == VERTICAL) {
-            path.moveTo(ovalActive.x - ovalActiveRadius, ovalActive.y);
-            path.lineTo(ovalActive.x + ovalActiveRadius, ovalActive.y);
-            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, slidingOvalStart.x + slidingOvalStartRadius, slidingOvalStart.y);
-            path.lineTo(slidingOvalStart.x - slidingOvalStartRadius, slidingOvalStart.y);
-            path.quadTo(slidingOvalStart.x, (slidingOvalStart.y - ovalActive.y) / 2 + ovalActive.y, ovalActive.x - ovalActiveRadius, ovalActive.y);
-        } else {
-            path.moveTo(ovalActive.x, ovalActive.y - ovalActiveRadius);
-            path.lineTo(ovalActive.x, ovalActive.y + ovalActiveRadius);
-            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, slidingOvalStart.x, slidingOvalStart.y + slidingOvalStartRadius);
-            path.lineTo(slidingOvalStart.x, slidingOvalStart.y - slidingOvalStartRadius);
-            path.quadTo((slidingOvalStart.x - ovalActive.x) / 2 + ovalActive.x, slidingOvalStart.y, ovalActive.x, ovalActive.y - ovalActiveRadius);
-        }
-    }
-
 
 }

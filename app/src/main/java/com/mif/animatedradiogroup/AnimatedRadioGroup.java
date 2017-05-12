@@ -31,6 +31,13 @@ import java.util.List;
 
 public class AnimatedRadioGroup extends LinearLayout {
 
+    private static final int BUBBLE_ANIMATION = 1;
+    private static final int JUMP_ANIMATION = 2;
+    private static final int FADE_ANIMATION = 3;
+    private static final int GRAVITY_ANIMATION = 4;
+    private static final int YOYO_ANIMATION = 5;
+    private static final int NONE_ANIMATION = 6;
+
     private static final int RADIUS = 20;
     private static final int CIRCLE_PADDING_RIGHT = 50;
     private static final int CIRCLE_PADDING_LEFT = 5;
@@ -51,7 +58,6 @@ public class AnimatedRadioGroup extends LinearLayout {
     private List<Integer> bgColors = new ArrayList<Integer>();
 
     public PointF ovalActive;
-    private Path path;
 
     private int color = CIRCLE_COLOR;
     private int colorStroke = color;
@@ -63,13 +69,9 @@ public class AnimatedRadioGroup extends LinearLayout {
     private int circlePaddingBottom = CIRCLE_PADDING_TOP;
     private int strokeWidth = STROKE_WIDTH;
     private int circleGravity = Gravity.TOP;
+    private int animationType = BUBBLE_ANIMATION;
 
     private int separatorWidth = 2;
-
-
-    public float ovalActiveRadius = radius;
-
-    private boolean isAnimating = false;
 
     private boolean isSeparate = false;
     private int separatorColor = Color.WHITE;
@@ -131,6 +133,7 @@ public class AnimatedRadioGroup extends LinearLayout {
             circleGravity = a.getInt(R.styleable.AnimatedRadioGroup_circleGravity, Gravity.TOP);
             isSeparate = a.getBoolean(R.styleable.AnimatedRadioGroup_setSeparator, isSeparate);
             separatorColor = a.getColor(R.styleable.AnimatedRadioGroup_separatorColor, separatorColor);
+            animationType = a.getInt(R.styleable.AnimatedRadioGroup_animationType, BUBBLE_ANIMATION);
 
             a.recycle();
         }
@@ -166,20 +169,38 @@ public class AnimatedRadioGroup extends LinearLayout {
         separatorRect = new Rect();
 
 
+
         //////////////
         CircleItem circleItem = new CircleItem();
         circleItem.setOutlineCircleRadius(radius);
         circleItem.setCenterFillCircleRadius(circleCenterFillRadius);
         circleItem.setCenterFillCirclePaint(pathPaint);
 
-        /**
-         * BubbleAnimation
-         * JumpAnimation
-         * FadeAnimation
-         * MagnetAnimation
-         */
-        canvasAnimator = new ThreadAnimation(circleItem);
-        canvasAnimator.setParent(this);
+
+        if (!isInEditMode()) {
+            switch (animationType) {
+                case JUMP_ANIMATION:
+                    canvasAnimator = new JumpAnimation(circleItem);
+                    break;
+                case FADE_ANIMATION:
+                    canvasAnimator = new FadeAnimation(circleItem);
+                    break;
+                case GRAVITY_ANIMATION:
+                    canvasAnimator = new GravityAnimation(circleItem);
+                    break;
+                case YOYO_ANIMATION:
+                    canvasAnimator = new YoyoAnimation(circleItem);
+                    break;
+                case NONE_ANIMATION:
+                    canvasAnimator = new NoneAnimation(circleItem);
+                    break;
+                default:
+                    canvasAnimator = new BubbleAnimation(circleItem);
+                    break;
+            }
+
+            canvasAnimator.setParent(this);
+        }
 
 
 //        canvasAnimator.setAnimatorListener(new Animator.AnimatorListener() {

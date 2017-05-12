@@ -4,13 +4,12 @@ import android.animation.AnimatorSet;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
-import java.util.List;
 
 /**
  * Created by v_alekseev on 08.05.17.
  */
 
-public interface CanvasAnimator {
+interface CanvasAnimator {
 
     void onDraw(Canvas canvas);
 

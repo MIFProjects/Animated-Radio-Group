@@ -2,39 +2,27 @@ package com.mif.animatedradiogroup;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Log;
-import android.util.Property;
-import android.view.View;
-
-import java.util.List;
 
 /**
  * Created by v_alekseev on 11.05.17.
  */
 
-public class FadeAnimation implements CanvasAnimator {
+class FadeAnimation extends CanvasMainAnimator {
 
     private final int ALPHA_LEVEL = 255;
-    private Animator.AnimatorListener animatorListener;
-    private AnimatedRadioGroup parent;
-    private PointF src;
-    private PointF dst;
-    private int circleCenterFillRadius;
-    private PointF ovalActive;
-    private boolean isAnimating = false;
     private Paint pathPaintFadeOut;
     private Paint pathPaintFadeIn;
     private int fadeInAlpha = 0;
     private int fadeOutAlpha = ALPHA_LEVEL;
 
     FadeAnimation(CircleItem circleItem) {
+        super(circleItem);
 
-        circleCenterFillRadius = circleItem.getCenterFillCircleRadius();
         pathPaintFadeOut = circleItem.getCenterFillCirclePaint();
         pathPaintFadeOut.setAlpha(fadeOutAlpha);
 
@@ -75,34 +63,14 @@ public class FadeAnimation implements CanvasAnimator {
     }
 
     @Override
-    public void setParent(AnimatedRadioGroup view) {
-        parent = view;
-    }
-
-    @Override
-    public void setDestinationPoint(PointF dst) {
-        this.dst = dst;
-    }
-
-    @Override
-    public void setSourcePoint(PointF src) {
-        this.src = src;
-    }
-
-    @Override
-    public void setOvalActive(PointF ovalActive) {
-        this.ovalActive = ovalActive;
-    }
-
-    @Override
     public void onDraw(Canvas canvas) {
 
         pathPaintFadeOut.setAlpha(fadeOutAlpha);
         pathPaintFadeIn.setAlpha(fadeInAlpha);
-        canvas.drawCircle(ovalActive.x, ovalActive.y, circleCenterFillRadius, pathPaintFadeOut);
+        canvas.drawCircle(ovalActive.x, ovalActive.y, circleCenterRadius, pathPaintFadeOut);
 
         if (isAnimating) {
-            canvas.drawCircle(dst.x, dst.y, circleCenterFillRadius, pathPaintFadeIn);
+            canvas.drawCircle(dst.x, dst.y, circleCenterRadius, pathPaintFadeIn);
         }
 
     }

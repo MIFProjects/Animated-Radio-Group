@@ -18,24 +18,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final AnimatedRadioGroup rg = (AnimatedRadioGroup) findViewById(R.id.animatedRG);
-
-        rg.setCheckedItem(1);
-        rg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Selected item # " + rg.getCheckedItem(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        rg.setOnCheckedChangeListener(new AnimatedRadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(@IdRes int checkedId) {
-                Log.d("AnimatedRadioGroup", "checkedID " + checkedId);
-
-            }
-        });
+//        final AnimatedRadioGroup rg = (AnimatedRadioGroup) findViewById(R.id.animatedRG);
+//
+//        rg.setCheckedItem(1);
+//        rg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "Selected item # " + rg.getCheckedItem(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//
+//        rg.setOnCheckedChangeListener(new AnimatedRadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(@IdRes int checkedId) {
+//                Log.d("AnimatedRadioGroup", "checkedID " + checkedId);
+//
+//            }
+//        });
 
 
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {

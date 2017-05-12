@@ -17,5 +17,13 @@
         </attr>
         <attr name="setSeparator" format="boolean" />
         <attr name="separatorColor" format="color" />
+        <attr name="animationType">
+            <flag name="bubble" value="1" />
+            <flag name="jump" value="2" />
+            <flag name="fade" value="3" />
+            <flag name="gravity" value="4" />
+            <flag name="yoyo" value="5" />
+            <flag name="none" value="6" />
+        </attr>
     </declare-styleable>
 </resources>
