@@ -14,7 +14,7 @@ import static android.widget.LinearLayout.VERTICAL;
  * Created by v_alekseev on 08.05.17.
  */
 
-class BubbleAnimation extends CanvasMainAnimator {
+class BubbleAnimation extends CanvasAnimator {
 
     private static final int SLIDING_RADIUS_COEFFICIENT = 2;
     private float slidingOvalStartRadius;
@@ -22,8 +22,12 @@ class BubbleAnimation extends CanvasMainAnimator {
     private PointF slidingOvalStart;
 
 
-    BubbleAnimation(CircleItem circleItem) {
-        super(circleItem);
+    BubbleAnimation() {
+
+    }
+
+    @Override
+    public void init() {
         slidingOvalStartRadius = circleCenterRadius / SLIDING_RADIUS_COEFFICIENT;
     }
 

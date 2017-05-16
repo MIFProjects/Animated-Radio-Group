@@ -6,9 +6,9 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -37,6 +37,8 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int GRAVITY_ANIMATION = 4;
     private static final int YOYO_ANIMATION = 5;
     private static final int NONE_ANIMATION = 6;
+    private static final int RAIL_LINE_ANIMATION = 7;
+    private static final int DRAW_X_ANIMAITON = 8;
 
     private static final int RADIUS = 20;
     private static final int CIRCLE_PADDING_RIGHT = 50;
@@ -53,6 +55,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     private Paint inactivePaint;
     private Paint separatorPaint;
     private Paint bgPaint;
+    private CircleItem circleItem;
     private List<PointF> circles = new ArrayList<>();
     private List<Rect> rects = new ArrayList<>();
     private List<Integer> bgColors = new ArrayList<Integer>();
@@ -70,6 +73,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     private int strokeWidth = STROKE_WIDTH;
     private int circleGravity = Gravity.TOP;
     private int animationType = BUBBLE_ANIMATION;
+    private boolean fullItemForClick = false;
 
     private int separatorWidth = 2;
 
@@ -95,7 +99,9 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int INDEX_FILL = 3;
     private int mGravity = Gravity.START | Gravity.TOP;
 
-    CanvasMainAnimator canvasAnimator;
+    private boolean isTotalWidthAdded = false;
+
+    CanvasAnimator canvasAnimator;
 
     private AnimatedRadioGroup.OnCheckedChangeListener mOnCheckedChangeListener;
 
@@ -134,13 +140,14 @@ public class AnimatedRadioGroup extends LinearLayout {
             isSeparate = a.getBoolean(R.styleable.AnimatedRadioGroup_setSeparator, isSeparate);
             separatorColor = a.getColor(R.styleable.AnimatedRadioGroup_separatorColor, separatorColor);
             animationType = a.getInt(R.styleable.AnimatedRadioGroup_animationType, BUBBLE_ANIMATION);
+            fullItemForClick = a.getBoolean(R.styleable.AnimatedRadioGroup_setFullItemForClick, false);
 
             a.recycle();
         }
     }
 
     private void init() {
-
+        canvasAnimator = null;
         final int version = getContext().getApplicationInfo().targetSdkVersion;
         mAllowInconsistentMeasurement = version <= Build.VERSION_CODES.M;
 
@@ -152,6 +159,7 @@ public class AnimatedRadioGroup extends LinearLayout {
         pathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         pathPaint.setColor(color);
         pathPaint.setStyle(Paint.Style.FILL);
+        pathPaint.setStrokeWidth(strokeWidth);
 
 
         inactivePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -169,74 +177,54 @@ public class AnimatedRadioGroup extends LinearLayout {
         separatorRect = new Rect();
 
 
-
-        //////////////
-        CircleItem circleItem = new CircleItem();
+        circleItem = new CircleItem();
         circleItem.setOutlineCircleRadius(radius);
         circleItem.setCenterFillCircleRadius(circleCenterFillRadius);
         circleItem.setCenterFillCirclePaint(pathPaint);
 
+        selectAnimation(animationType);
 
-        if (!isInEditMode()) {
-            setupAnimation(circleItem);
-        }
-
-
-//        canvasAnimator.setAnimatorListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//                Log.d("animationLife", "animation start");
-//                isAnimating = true;
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                isAnimating = false;
-//                ovalActiveRadius = circleCenterFillRadius;
-//                ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
-//                Log.d("animationLife", "animation end");
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//                Log.d("animationLife", "animation cancel");
-//                isAnimating = false;
-//                ovalActiveRadius = circleCenterFillRadius;
-//                ovalActive = new PointF(circles.get(activeIndex).x, circles.get(activeIndex).y);
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//            }
-//        });
     }
 
-    private void setupAnimation(CircleItem circleItem) {
-/*
+    public void selectAnimation(int animationType) {
+        CanvasAnimator animator;
         switch (animationType) {
             case JUMP_ANIMATION:
-                canvasAnimator = new JumpAnimation(circleItem);
+                animator = new JumpAnimation();
                 break;
             case FADE_ANIMATION:
-                canvasAnimator = new FadeAnimation(circleItem);
+                animator = new FadeAnimation();
                 break;
             case GRAVITY_ANIMATION:
-                canvasAnimator = new GravityAnimation(circleItem);
+                animator = new GravityAnimation();
                 break;
             case YOYO_ANIMATION:
-                canvasAnimator = new YoyoAnimation(circleItem);
+                animator = new YoyoAnimation();
                 break;
             case NONE_ANIMATION:
-                canvasAnimator = new NoneAnimation(circleItem);
+                animator = new NoneAnimation();
+                break;
+            case RAIL_LINE_ANIMATION:
+                animator = new RailLineAnimation();
+                break;
+            case DRAW_X_ANIMAITON:
+                animator = new DrawXAnimation();
                 break;
             default:
-                canvasAnimator = new BubbleAnimation(circleItem);
+                animator = new BubbleAnimation();
                 break;
         }
-*/
-        canvasAnimator = new BubbleAnimation(circleItem);
 
+        setupAnimation(animator);
+//        setupAnimation(new DrawXAnimation());
+    }
+
+    public void setupAnimation(CanvasAnimator animator) {
+        canvasAnimator = animator;
+        canvasAnimator.setupCircle(circleItem);
         canvasAnimator.setParent(this);
+        canvasAnimator.setOvalActive(ovalActive);
+        canvasAnimator.init();
     }
 
     @Override
@@ -264,19 +252,10 @@ public class AnimatedRadioGroup extends LinearLayout {
             canvas.drawCircle(circle.x, circle.y, radius, inactivePaint);
         }
 
-//        Log.d("circleCenterFillRadius", "circleCenterFillRadius " + circleCenterFillRadius + " slidingOvalStartRadius " + slidingOvalStartRadius);
-//        if (!circles.isEmpty()) {
-//            canvas.drawCircle(ovalActive.x, ovalActive.y, circleCenterFillRadius, pathPaint);
-//        }
-        Log.d("AnimatedRadioGroup", "onDraw");
         if (!circles.isEmpty()) {
             canvasAnimator.onDraw(canvas);
         }
 
-//        if (isAnimating) {
-//            canvas.drawCircle(slidingOvalStart.x, slidingOvalStart.y, slidingOvalStartRadius, pathPaint);
-//            canvas.drawPath(path, pathPaint);
-//        }
     }
 
     @Override
@@ -344,7 +323,6 @@ public class AnimatedRadioGroup extends LinearLayout {
         PointF src = circles.get(activeIndex);
         activeIndex = clickedCircleIndex;
         animateSliding(src, dst);
-
     }
 
     private void resetAnimation() {
@@ -359,11 +337,20 @@ public class AnimatedRadioGroup extends LinearLayout {
         int lastMotionX = (int) ev.getX(activePointerIndex);
         int lastMotionY = (int) ev.getY(activePointerIndex);
 
-        for (Rect rect : rects) {
-            if (rect.contains(lastMotionX, lastMotionY)) {
-                return true;
+        if (fullItemForClick) {
+            for (Rect rect : rects) {
+                if (rect.contains(lastMotionX, lastMotionY)) {
+                    return true;
+                }
+            }
+        } else {
+            for (PointF circle : circles) {
+                if (new RectF(circle.x - radius, circle.y - radius, circle.x + radius, circle.y + radius).contains(lastMotionX, lastMotionY)) {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
@@ -374,10 +361,19 @@ public class AnimatedRadioGroup extends LinearLayout {
         int lastMotionX = (int) ev.getX(activePointerIndex);
         int lastMotionY = (int) ev.getY(activePointerIndex);
 
-        for (int i = 0; i < rects.size(); i++) {
-            Rect rect = rects.get(i);
-            if (rect.contains(lastMotionX, lastMotionY)) {
-                return i;
+        if (fullItemForClick) {
+            for (int i = 0; i < rects.size(); i++) {
+                Rect rect = rects.get(i);
+                if (rect.contains(lastMotionX, lastMotionY)) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < circles.size(); i++) {
+                PointF rect = circles.get(i);
+                if (new RectF(rect.x - radius, rect.y - radius, rect.x + radius, rect.y + radius).contains(lastMotionX, lastMotionY)) {
+                    return i;
+                }
             }
         }
 
@@ -1253,6 +1249,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
         circles.add(new PointF(left - radius - strokeWidth - circlePaddingRight, yAxis));
         rects.add(new Rect(left - TOTAL_CIRCLE_WIDTH, top, left + width, top + height));
+//        rects.add(new Rect(left - TOTAL_CIRCLE_WIDTH, top, left, top + height));
 
     }
 

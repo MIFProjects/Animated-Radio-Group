@@ -8,11 +8,11 @@ import android.graphics.Canvas;
  * Created by v_alekseev on 12.05.17.
  */
 
-class NoneAnimation extends CanvasMainAnimator {
+class NoneAnimation extends CanvasAnimator {
 
 
-    NoneAnimation(CircleItem circleItem) {
-        super(circleItem);
+    NoneAnimation() {
+
     }
 
     @Override

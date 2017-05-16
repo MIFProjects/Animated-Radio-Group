@@ -11,10 +11,10 @@ import static android.widget.LinearLayout.VERTICAL;
  * Created by v_alekseev on 08.05.17.
  */
 
-class GravityAnimation extends CanvasMainAnimator {
+class GravityAnimation extends CanvasAnimator {
 
-    GravityAnimation(CircleItem circleItem) {
-        super(circleItem);
+    GravityAnimation() {
+
     }
 
     @Override

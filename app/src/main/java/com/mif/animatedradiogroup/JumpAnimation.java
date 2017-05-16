@@ -13,12 +13,16 @@ import java.util.List;
  * Created by v_alekseev on 08.05.17.
  */
 
-class JumpAnimation extends CanvasMainAnimator {
+class JumpAnimation extends CanvasAnimator {
 
     private float animatedOvalRadius;
 
-    JumpAnimation(CircleItem circleItem) {
-        super(circleItem);
+    JumpAnimation() {
+
+    }
+
+    @Override
+    public void init() {
         animatedOvalRadius = circleCenterRadius;
     }
 

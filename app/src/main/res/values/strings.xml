@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">AnimatedRadioGroup</string>
+
+
+    <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <array name="AnimatedType">
+        <item>Bubble Animation</item>
+        <item>Jump Animation</item>
+        <item>Fade Animation</item>
+        <item>Gravity Animation</item>
+        <item>Yoyo Animation</item>
+        <item>None Animation</item>
+        <item>Rail Line Animation</item>
+        <item>Draw X Animation</item>
+    </array>
+
+    <array name="OrientationType">
+        <item>Vertical</item>
+        <item>Horizontal</item>
+    </array>
+
+    <array name="LayoutSizeType">
+        <item>Match parent</item>
+        <item>Wrap content</item>
+    </array>
 </resources>

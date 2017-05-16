@@ -17,6 +17,7 @@
         </attr>
         <attr name="setSeparator" format="boolean" />
         <attr name="separatorColor" format="color" />
+        <attr name="setFullItemForClick" format="boolean" />
         <attr name="animationType">
             <flag name="bubble" value="1" />
             <flag name="jump" value="2" />
@@ -24,6 +25,8 @@
             <flag name="gravity" value="4" />
             <flag name="yoyo" value="5" />
             <flag name="none" value="6" />
+            <flag name="rail_line" value="7" />
+            <flag name="draw_x" value="8" />
         </attr>
     </declare-styleable>
 </resources>

@@ -12,7 +12,7 @@ import android.util.Log;
  * Created by v_alekseev on 11.05.17.
  */
 
-class FadeAnimation extends CanvasMainAnimator {
+class FadeAnimation extends CanvasAnimator {
 
     private final int ALPHA_LEVEL = 255;
     private Paint pathPaintFadeOut;
@@ -20,10 +20,13 @@ class FadeAnimation extends CanvasMainAnimator {
     private int fadeInAlpha = 0;
     private int fadeOutAlpha = ALPHA_LEVEL;
 
-    FadeAnimation(CircleItem circleItem) {
-        super(circleItem);
+    FadeAnimation() {
 
-        pathPaintFadeOut = circleItem.getCenterFillCirclePaint();
+    }
+
+    @Override
+    public void init() {
+        pathPaintFadeOut = pathPaint;
         pathPaintFadeOut.setAlpha(fadeOutAlpha);
 
         pathPaintFadeIn = new Paint(Paint.ANTI_ALIAS_FLAG);

@@ -1,374 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context="com.mif.animatedradiogroup.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="5dp">
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Animation: "
+                android:textColor="#ffffff"
+                android:textSize="17sp" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView3"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/textView"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="Orientation: "-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="17sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/textView3"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="Size: "-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="17sp" />-->
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/RelativeLayout3"
+            android:padding="10dp">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/AnimatedType"
+                android:spinnerMode="dropdown" />
+
+            <!--<Spinner-->
+            <!--android:id="@+id/spinner3"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/spinner"-->
+            <!--android:layout_weight="1"-->
+            <!--android:entries="@array/LayoutSizeType"-->
+            <!--android:spinnerMode="dropdown" />-->
+
+            <!--<Spinner-->
+            <!--android:id="@+id/spinner2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/spinner3"-->
+            <!--android:layout_weight="1"-->
+            <!--android:entries="@array/OrientationType"-->
+            <!--android:spinnerMode="dropdown" />-->
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.mif.animatedradiogroup.AnimatedRadioGroup
+        android:id="@+id/animatedRG2"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:context="com.mif.animatedradiogroup.MainActivity">
+        android:layout_below="@+id/RelativeLayout3"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:circleFillColor="@color/colorPrimary"
+        app:circleGravity="center"
+        app:circlePaddingLeft="15dp"
+        app:circleRadius="17dp"
+        app:circleCenterFillRadius="13dp"
+        app:setFullItemForClick="false"
+        app:circleStrokeColor="@color/colorPrimaryDark"
+        app:circleStrokeWidth="3dp"
+        app:separatorColor="@color/colorDivider"
+        app:setSeparator="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageViewGirl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+
+                android:src="@drawable/girl" />
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/imageViewGirl">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/loremIpsum"
+                    android:textColor="@color/colorPrimaryText" />
+            </ScrollView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/loremIpsum"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="11sp" />
+            </ScrollView>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/loremIpsum"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="11sp" />
+            </ScrollView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="1">
 
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
-                android:id="@+id/animatedRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#cacaca"
-                android:orientation="horizontal"
-                app:animationType="bubble"
-                app:circleCenterFillRadius="7dp"
-                app:circleFillColor="#464646"
-                app:circleGravity="center"
-                app:circlePaddingBottom="10dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingRight="10dp"
-                app:circlePaddingTop="10dp"
-                app:circleRadius="10dp"
-                app:circleStrokeColor="#202020"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:separatorColor="#ffffff"
-                app:setSeparator="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Textee876798" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 3" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 4" />
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#cacaca"
-                android:orientation="horizontal"
-                app:animationType="fade"
-                app:circleCenterFillRadius="7dp"
-                app:circleFillColor="#464646"
-                app:circleGravity="center"
-                app:circlePaddingBottom="10dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingRight="10dp"
-                app:circlePaddingTop="10dp"
-                app:circleRadius="10dp"
-                app:circleStrokeColor="#202020"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:separatorColor="#ffffff"
-                app:setSeparator="true">
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/girl" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Textee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 3" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 4" />
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#cacaca"
-                android:orientation="horizontal"
-                app:animationType="jump"
-                app:circleCenterFillRadius="7dp"
-                app:circleFillColor="#464646"
-                app:circleGravity="center"
-                app:circlePaddingBottom="10dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingRight="10dp"
-                app:circlePaddingTop="10dp"
-                app:circleRadius="10dp"
-                app:circleStrokeColor="#202020"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:separatorColor="#ffffff"
-                app:setSeparator="true">
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/boy" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Textee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 3" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 4" />
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#cacaca"
-                android:orientation="horizontal"
-                app:animationType="gravity"
-                app:circleCenterFillRadius="7dp"
-                app:circleFillColor="#464646"
-                app:circleGravity="center"
-                app:circlePaddingBottom="10dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingRight="10dp"
-                app:circlePaddingTop="10dp"
-                app:circleRadius="10dp"
-                app:circleStrokeColor="#202020"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:separatorColor="#ffffff"
-                app:setSeparator="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Textee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 3" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 4" />
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#cacaca"
-                android:orientation="horizontal"
-                app:animationType="yoyo"
-                app:circleCenterFillRadius="7dp"
-                app:circleFillColor="#464646"
-                app:circleGravity="center"
-                app:circlePaddingBottom="10dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingRight="10dp"
-                app:circlePaddingTop="10dp"
-                app:circleRadius="10dp"
-                app:circleStrokeColor="#202020"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:separatorColor="#ffffff"
-                app:setSeparator="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Textee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 3" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 4" />
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#cacaca"
-                android:orientation="horizontal"
-                app:animationType="none"
-                app:circleCenterFillRadius="7dp"
-                app:circleFillColor="#464646"
-                app:circleGravity="center"
-                app:circlePaddingBottom="10dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingRight="10dp"
-                app:circlePaddingTop="10dp"
-                app:circleRadius="10dp"
-                app:circleStrokeColor="#202020"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:separatorColor="#ffffff"
-                app:setSeparator="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Textee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 3" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Text 4" />
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
-
-            <com.mif.animatedradiogroup.AnimatedRadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/animatedRG"
-                android:layout_margin="10dp"
-                android:orientation="vertical"
-                app:circleGravity="center"
-                app:circlePaddingBottom="0dp"
-                app:circlePaddingLeft="10dp"
-                app:circlePaddingTop="0dp"
-                app:circleRadius="15dp"
-                app:circleStrokeColor="#fff"
-                app:setSeparator="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="#457eb4">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="text test\n ffdfffffdddddddddddddddddddddddddddd" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="#67d67f"
-                    android:src="@drawable/icon" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="#cad25a"
-                    android:text="button" />
-
-
-            </com.mif.animatedradiogroup.AnimatedRadioGroup>
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/girl_2" />
 
         </LinearLayout>
-    </RelativeLayout>
-</ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button 1"
+                android:textColor="#fff" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button 2"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+    </com.mif.animatedradiogroup.AnimatedRadioGroup>
+
+
+</LinearLayout>
