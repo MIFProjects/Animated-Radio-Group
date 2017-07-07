@@ -27,6 +27,7 @@
             <flag name="none" value="6" />
             <flag name="rail_line" value="7" />
             <flag name="draw_x" value="8" />
+            <flag name="draw_v" value="9" />
         </attr>
     </declare-styleable>
 </resources>

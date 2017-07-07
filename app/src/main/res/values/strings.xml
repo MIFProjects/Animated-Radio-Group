@@ -13,6 +13,7 @@
         <item>None Animation</item>
         <item>Rail Line Animation</item>
         <item>Draw X Animation</item>
+        <item>Draw V Animation</item>
     </array>
 
     <array name="OrientationType">

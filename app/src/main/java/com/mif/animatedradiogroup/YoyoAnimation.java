@@ -76,7 +76,7 @@ class YoyoAnimation extends CanvasAnimator {
             //end oval slide animation
             slideOvalEnd = ValueAnimator.ofFloat(src.y, dst.y);
             slideOvalEnd.setInterpolator(new OvershootInterpolator(3));
-            slideOvalEnd.setDuration(200);
+            slideOvalEnd.setDuration(500);
             slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -101,7 +101,7 @@ class YoyoAnimation extends CanvasAnimator {
             //end oval slide animation
             slideOvalEnd = ValueAnimator.ofFloat(src.x, dst.x);
             slideOvalEnd.setInterpolator(new OvershootInterpolator(3));
-            slideOvalEnd.setDuration(200);
+            slideOvalEnd.setDuration(500);
             slideOvalEnd.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {

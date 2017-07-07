@@ -39,6 +39,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int NONE_ANIMATION = 6;
     private static final int RAIL_LINE_ANIMATION = 7;
     private static final int DRAW_X_ANIMAITON = 8;
+    private static final int DRAW_Y_ANIMAITON = 9;
 
     private static final int RADIUS = 20;
     private static final int CIRCLE_PADDING_RIGHT = 50;
@@ -210,13 +211,16 @@ public class AnimatedRadioGroup extends LinearLayout {
             case DRAW_X_ANIMAITON:
                 animator = new DrawXAnimation();
                 break;
+            case DRAW_Y_ANIMAITON:
+                animator = new DrawVAnimation();
+                break;
             default:
                 animator = new BubbleAnimation();
                 break;
         }
 
         setupAnimation(animator);
-//        setupAnimation(new DrawXAnimation());
+//        setupAnimation(new DrawVAnimation());
     }
 
     public void setupAnimation(CanvasAnimator animator) {

@@ -45,7 +45,7 @@ class JumpAnimation extends CanvasAnimator {
         // start oval growth animation
         ValueAnimator animatedOvalGrowAnimation = ValueAnimator.ofFloat(circleCenterRadius - (circleCenterRadius / 4), circleCenterRadius);
         animatedOvalGrowAnimation.setInterpolator(new OvershootInterpolator(6));
-        animatedOvalGrowAnimation.setDuration(500);
+        animatedOvalGrowAnimation.setDuration(300);
         animatedOvalGrowAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -57,7 +57,7 @@ class JumpAnimation extends CanvasAnimator {
         //start oval decrease animation
         ValueAnimator startDecreaseAnimation = ValueAnimator.ofFloat(circleCenterRadius, 1);
         startDecreaseAnimation.setInterpolator(new OvershootInterpolator(1));
-        startDecreaseAnimation.setDuration(300);
+        startDecreaseAnimation.setDuration(200);
         startDecreaseAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -80,7 +80,7 @@ class JumpAnimation extends CanvasAnimator {
         //start oval growth animation
         ValueAnimator animatedOvalGrowEndAnimation = ValueAnimator.ofFloat(0, circleCenterRadius);
         animatedOvalGrowEndAnimation.setInterpolator(new OvershootInterpolator(4));
-        animatedOvalGrowEndAnimation.setDuration(500);
+        animatedOvalGrowEndAnimation.setDuration(300);
         animatedOvalGrowEndAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
