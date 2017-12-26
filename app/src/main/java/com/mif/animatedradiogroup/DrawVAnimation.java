@@ -64,13 +64,23 @@ class DrawVAnimation extends CanvasAnimator {
     @Override
     public void onDraw(Canvas canvas) {
         float radius = circleCenterRadius / 2;
-        canvas.drawLine(ovalActive.x - (circleCenterRadius), ovalActive.y, ovalActive.x - circleCenterRadius + translationFirstLine, ovalActive.y + translationFirstLine, pathPaint);
-        canvas.drawLine(ovalActive.x - (pathPaint.getStrokeWidth() / 2), ovalActive.y + circleCenterRadius, ovalActive.x  - radius + translationSecondLine, ovalActive.y + circleCenterRadius - translationSecondLine, pathPaint);
+
 
         if (isAnimating) {
 //            canvas.drawPath(path, pathPaint);
             canvas.drawLine(ovalActive.x - (circleCenterRadius), ovalActive.y, ovalActive.x - circleCenterRadius + translationFirstLine, ovalActive.y + translationFirstLine, pathPaint);
-            canvas.drawLine(ovalActive.x - (pathPaint.getStrokeWidth() / 2), ovalActive.y + circleCenterRadius, ovalActive.x  - radius + translationSecondLine, ovalActive.y + circleCenterRadius - translationSecondLine, pathPaint);
+            canvas.drawLine(ovalActive.x - (pathPaint.getStrokeWidth() / 2),
+                    ovalActive.y + circleCenterRadius,
+                    ovalActive.x - (pathPaint.getStrokeWidth() / 2) + (translationSecondLine * 0.9f),
+                    ovalActive.y + circleCenterRadius - (translationSecondLine * 0.9f),
+                    pathPaint);
+        } else {
+            canvas.drawLine(ovalActive.x - (circleCenterRadius), ovalActive.y, ovalActive.x - circleCenterRadius + translationFirstLine, ovalActive.y + translationFirstLine, pathPaint);
+            canvas.drawLine(ovalActive.x - (pathPaint.getStrokeWidth() / 2),
+                    ovalActive.y + circleCenterRadius,
+                    ovalActive.x - (pathPaint.getStrokeWidth() / 2) + (translationSecondLine * 0.9f),
+                    ovalActive.y + circleCenterRadius - (translationSecondLine * 0.9f),
+                    pathPaint);
         }
 
     }
