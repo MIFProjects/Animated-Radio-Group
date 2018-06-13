@@ -93,11 +93,11 @@
     <com.mif.animatedradiogroup.AnimatedRadioGroup
         android:id="@+id/animatedRG2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_height="match_parent"
         android:layout_below="@+id/RelativeLayout3"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
+        android:visibility="gone"
         app:circleCenterFillRadius="13dp"
         app:circleFillColor="@color/colorPrimary"
         app:circleGravity="center"
@@ -111,7 +111,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp">
@@ -149,40 +149,38 @@
 
             <ScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/loremIpsum"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="11sp" />
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/loremIpsum"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="11sp" />
             </ScrollView>
 
             <ScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/loremIpsum"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="11sp" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/loremIpsum"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="11sp" />
             </ScrollView>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
@@ -216,7 +214,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center">
 
@@ -237,239 +235,208 @@
 
     </com.mif.animatedradiogroup.AnimatedRadioGroup>
 
-
-    <!--<com.mif.animatedradiogroup.AnimatedRadioGroup-->
-    <!--android:id="@+id/animated"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/RelativeLayout3"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:orientation="horizontal"-->
-    <!--app:circleFillColor="@color/colorPrimary"-->
-    <!--app:circleGravity="center"-->
-    <!--app:circlePaddingLeft="15dp"-->
-    <!--app:circleRadius="17dp"-->
-    <!--app:circleCenterFillRadius="13dp"-->
-    <!--app:setFullItemForClick="false"-->
-    <!--app:circleStrokeColor="@color/colorPrimaryDark"-->
-    <!--app:circleStrokeWidth="3dp"-->
-    <!--app:separatorColor="@color/colorDivider"-->
-    <!--app:setSeparator="true">-->
     <com.mif.animatedradiogroup.AnimatedRadioGroup
+        android:id="@+id/animatedRG3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:circleGravity="center"
-        android:orientation="horizontal"
-        app:circleFillColor="@color/colorPrimary"
         android:layout_below="@+id/RelativeLayout3"
         android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
         app:circleCenterFillRadius="13dp"
-        app:circlePaddingLeft="15dp"
+        app:circleFillColor="@color/colorPrimary"
+        app:circleGravity="center"
+        app:circlePaddingLeft="0dp"
+        app:circlePaddingRight="0dp"
         app:circleRadius="17dp"
+        app:separatorStrokeWidth="40dp"
         app:circleStrokeColor="@color/colorPrimaryDark"
         app:circleStrokeWidth="3dp"
         app:separatorColor="@color/colorDivider"
-        app:setFullItemForClick="false"
-        app:setSeparator="true"
-        >
+        app:setFullItemForClick="true"
+        app:setSeparator="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="10dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="10dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
-
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
 
 
     </com.mif.animatedradiogroup.AnimatedRadioGroup>
 
+
+    <com.mif.animatedradiogroup.AnimatedRadioGroup
+        android:id="@+id/animatedRG4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/RelativeLayout3"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:circleCenterFillRadius="13dp"
+        app:circleFillColor="@color/colorPrimary"
+        app:circleGravity="center"
+        app:circlePaddingLeft="15dp"
+        app:circleRadius="17dp"
+        app:circleStrokeColor="@color/colorPrimaryDark"
+        app:circleStrokeWidth="3dp"
+        app:separatorStrokeWidth="15dp"
+        app:separatorColor="@color/colorDivider"
+        app:setFullItemForClick="false"
+        app:setSeparator="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
+
+
+    </com.mif.animatedradiogroup.AnimatedRadioGroup>
+
+
     <LinearLayout
+        android:id="@+id/animatedLiner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@+id/RelativeLayout3"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        android:layout_marginTop="10dp">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="10dp">
 
             <ImageView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="10dp">
 
             <ImageView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/boy" />
-        </LinearLayout>
-
-
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl" />
+        </RelativeLayout>
 
     </LinearLayout>
-    <!--<com.mif.animatedradiogroup.AnimatedRadioGroup-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:circleGravity="center"-->
-        <!--android:orientation="vertical"-->
-        <!--app:circleFillColor="@color/colorPrimary"-->
-        <!--android:layout_below="@+id/RelativeLayout3"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--app:circleCenterFillRadius="13dp"-->
-        <!--app:circlePaddingLeft="15dp"-->
-        <!--app:circleRadius="17dp"-->
-        <!--app:circleStrokeColor="@color/colorPrimaryDark"-->
-        <!--app:circleStrokeWidth="3dp"-->
-        <!--app:separatorColor="@color/colorDivider"-->
-        <!--app:setFullItemForClick="false"-->
-        <!--app:setSeparator="true"-->
-        <!--&gt;-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="2"-->
-            <!--android:gravity="center">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="10dp"-->
-                <!--android:src="@drawable/boy" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="10dp"-->
-                <!--android:src="@drawable/boy" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="10dp"-->
-                <!--android:src="@drawable/boy" />-->
-        <!--</LinearLayout>-->
 
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="10dp"-->
-                <!--android:src="@drawable/boy" />-->
-        <!--</LinearLayout>-->
-
-    <!--</com.mif.animatedradiogroup.AnimatedRadioGroup>-->
-    <!--</com.mif.animatedradiogroup.AnimatedRadioGroup>-->
 </LinearLayout>

@@ -17,6 +17,7 @@
         </attr>
         <attr name="setSeparator" format="boolean" />
         <attr name="separatorColor" format="color" />
+        <attr name="separatorStrokeWidth" format="dimension" />
         <attr name="setFullItemForClick" format="boolean" />
         <attr name="animationType">
             <flag name="bubble" value="1" />
