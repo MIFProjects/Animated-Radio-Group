@@ -1,4 +1,4 @@
-package com.mif.animatedradiogroup;
+package com.mif.demo;
 
 import org.junit.Test;
 

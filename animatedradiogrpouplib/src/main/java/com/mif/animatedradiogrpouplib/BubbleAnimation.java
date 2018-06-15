@@ -1,5 +1,7 @@
-package com.mif.animatedradiogroup;
+package com.mif.animatedradiogrpouplib;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
@@ -7,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.LinearLayout;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -52,6 +55,8 @@ class BubbleAnimation extends CanvasAnimator {
         slidingOvalStart = new PointF(src.x, src.y);
 
         ValueAnimator slideOvalStart;
+        ValueAnimator slideOvalStart2 = null;
+        ValueAnimator slideOvalEnd2 = null;
         ValueAnimator slideOvalEnd;
 
         if (parent.getOrientation() == VERTICAL) {
@@ -94,6 +99,18 @@ class BubbleAnimation extends CanvasAnimator {
                 }
             });
 
+            slideOvalStart2 = ValueAnimator.ofFloat(src.y, dst.y);
+            slideOvalStart2.setInterpolator(new AccelerateInterpolator());
+            slideOvalStart2.setDuration(200);
+            slideOvalStart2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    slidingOvalStart.y = (float) animation.getAnimatedValue();
+                    recalculatePath();
+                    parent.invalidate();
+                }
+            });
+
 
             //end oval slide animation
             slideOvalEnd = ValueAnimator.ofFloat(src.x, dst.x);
@@ -103,6 +120,18 @@ class BubbleAnimation extends CanvasAnimator {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     ovalActive.x = (float) animation.getAnimatedValue();
+                    recalculatePath();
+                    parent.invalidate();
+                }
+            });
+//            //end oval slide animation
+            slideOvalEnd2 = ValueAnimator.ofFloat(src.y, dst.y);
+            slideOvalEnd2.setInterpolator(new AccelerateInterpolator());
+            slideOvalEnd2.setDuration(200);
+            slideOvalEnd2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    ovalActive.y = (float) animation.getAnimatedValue();
                     recalculatePath();
                     parent.invalidate();
                 }
@@ -136,6 +165,10 @@ class BubbleAnimation extends CanvasAnimator {
 
         animatorSet.play(slideOvalStart).before(slideOvalEnd);
         animatorSet.play(slideOvalEnd).with(slideOvalStartGrow).with(slideOvalEndReduction);
+        if (parent.getOrientation() == LinearLayout.HORIZONTAL) {
+            animatorSet.play(slideOvalStart2).before(slideOvalEnd);
+            animatorSet.play(slideOvalEnd2).with(slideOvalStartGrow).with(slideOvalEndReduction);
+        }
 
 
         return animatorSet;

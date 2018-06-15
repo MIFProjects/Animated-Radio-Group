@@ -1,4 +1,4 @@
-package com.mif.animatedradiogroup;
+package com.mif.animatedradiogrpouplib;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
