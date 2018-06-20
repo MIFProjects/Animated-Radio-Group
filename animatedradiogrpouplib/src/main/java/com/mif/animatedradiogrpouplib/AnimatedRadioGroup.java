@@ -439,8 +439,12 @@ public class AnimatedRadioGroup extends LinearLayout {
         boolean skippedMeasure = false;
 
         final int baselineChildIndex = getBaselineAlignedChildIndex();
+        final boolean useLargestChild = isMeasureWithLargestChildEnabled();
 
+        int largestChildHeight = Integer.MIN_VALUE;
         int consumedExcessSpace = 0;
+
+        int nonSkippedChildCount = 0;
 
         // See how tall everyone is. Also remember max width.
         for (int i = 0; i < count; ++i) {
@@ -453,10 +457,12 @@ public class AnimatedRadioGroup extends LinearLayout {
                 continue;
             }
 
-            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            if (lp.height < totalCircleHeight) {
-                lp.height = totalCircleHeight;
+            nonSkippedChildCount++;
+            if (hasDividerBeforeChildAt(i)) {
+                mTotalLength += separatorWidth;
             }
+
+            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
             totalWeight += lp.weight;
 
             final boolean useExcessSpace = lp.height == 0 && lp.weight > 0;
@@ -465,11 +471,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 // laid out using excess space. These views will get measured
                 // later if we have space to distribute.
                 final int totalLength = mTotalLength;
-                int separatorWidth = 0;
-                if (hasDividerBeforeChildAt(i)) {
-                    separatorWidth = this.separatorWidth;
-                }
-                mTotalLength = Math.max(totalLength, totalLength + lp.topMargin + lp.bottomMargin + separatorWidth);
+                mTotalLength = Math.max(totalLength, totalLength + lp.topMargin + lp.bottomMargin);
                 skippedMeasure = true;
             } else {
                 if (useExcessSpace) {
@@ -506,6 +508,9 @@ public class AnimatedRadioGroup extends LinearLayout {
                 mTotalLength = Math.max(totalLength, totalLength + childHeight + lp.topMargin +
                         lp.bottomMargin + separatorWidth);
 
+                if (useLargestChild) {
+                    largestChildHeight = Math.max(childHeight, largestChildHeight);
+                }
             }
 
             /**
@@ -554,6 +559,38 @@ public class AnimatedRadioGroup extends LinearLayout {
                 alternativeMaxWidth = Math.max(alternativeMaxWidth,
                         matchWidthLocally ? margin : measuredWidth);
             }
+
+        }
+
+        if (nonSkippedChildCount > 0 && hasDividerBeforeChildAt(count)) {
+            mTotalLength += separatorWidth;
+        }
+
+        if (useLargestChild &&
+                (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED)) {
+            mTotalLength = 0;
+
+            for (int i = 0; i < count; ++i) {
+                final View child = getChildAt(i);
+                if (child == null) {
+//                    mTotalLength += measureNullChild(i);
+                    continue;
+                }
+
+                if (child.getVisibility() == GONE) {
+//                    i += getChildrenSkipCount(child, i);
+                    continue;
+                }
+
+                final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)
+                        child.getLayoutParams();
+                // Account for negative margins
+                final int totalLength = mTotalLength;
+                mTotalLength = Math.max(totalLength, totalLength + largestChildHeight +
+                        lp.topMargin + lp.bottomMargin
+//                        + getNextLocationOffset(child)
+                );
+            }
         }
 
         // Add in our padding
@@ -585,10 +622,6 @@ public class AnimatedRadioGroup extends LinearLayout {
                 }
 
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-                if (lp.height < totalCircleHeight) {
-                    lp.height = totalCircleHeight;
-                }
-
                 final float childWeight = lp.weight;
                 if (childWeight > 0) {
                     final int share = (int) (childWeight * remainingExcess / remainingWeightSum);
@@ -596,7 +629,9 @@ public class AnimatedRadioGroup extends LinearLayout {
                     remainingWeightSum -= childWeight;
 
                     final int childHeight;
-                    if (lp.height == 0 && (!mAllowInconsistentMeasurement
+                    if (isMeasureWithLargestChildEnabled() && heightMode != MeasureSpec.EXACTLY) {
+                        childHeight = largestChildHeight;
+                    } else if (lp.height == 0 && (!mAllowInconsistentMeasurement
                             || heightMode == MeasureSpec.EXACTLY)) {
                         // This child needs to be laid out from scratch using
                         // only its share of excess space.
@@ -608,17 +643,17 @@ public class AnimatedRadioGroup extends LinearLayout {
                     }
 
                     final int childHeightMeasureSpec = makeMeasureSpec(
-                            Math.max(0, childHeight + totalCircleHeight), MeasureSpec.EXACTLY);
+                            Math.max(0, childHeight), MeasureSpec.EXACTLY);
 
 
                     final int childWidthMeasureSpec = getChildMeasureSpec(widthMeasureSpec,
-                            getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin + totalCircleWidth,
+                            getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin,
                             lp.width);
                     child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
 
                     // Child may now not fit in vertical dimension.
                     childState = combineMeasuredStates(childState, child.getMeasuredState()
-                            & (MEASURED_STATE_MASK >> MEASURED_HEIGHT_STATE_SHIFT));
+                            & (MEASURED_STATE_MASK>>MEASURED_HEIGHT_STATE_SHIFT));
                 }
 
                 final int margin = lp.leftMargin + lp.rightMargin;
@@ -644,6 +679,28 @@ public class AnimatedRadioGroup extends LinearLayout {
         } else {
             alternativeMaxWidth = Math.max(alternativeMaxWidth,
                     weightedMaxWidth);
+
+            // We have no limit, so make all weighted views as tall as the largest child.
+            // Children will have already been measured once.
+            if (useLargestChild && heightMode != MeasureSpec.EXACTLY) {
+                for (int i = 0; i < count; i++) {
+                    final View child = getChildAt(i);
+                    if (child == null || child.getVisibility() == View.GONE) {
+                        continue;
+                    }
+
+                    final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child.getLayoutParams();
+
+                    float childExtra = lp.weight;
+                    if (childExtra > 0) {
+                        child.measure(
+                                MeasureSpec.makeMeasureSpec(child.getMeasuredWidth()-totalCircleWidth,
+                                        MeasureSpec.EXACTLY),
+                                MeasureSpec.makeMeasureSpec(largestChildHeight,
+                                        MeasureSpec.EXACTLY));
+                    }
+                }
+            }
         }
 
         if (!allFillParent && widthMode != MeasureSpec.EXACTLY) {
@@ -665,14 +722,14 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     private void forceUniformWidth(int count, int heightMeasureSpec) {
         // Pretend that the linear layout has an exact size.
-        int uniformMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(),
+        int uniformMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth() - totalCircleWidth,
                 MeasureSpec.EXACTLY);
         for (int i = 0; i < count; ++i) {
             final View child = getChildAt(i);
             if (child != null && child.getVisibility() != GONE) {
                 LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams) child.getLayoutParams());
 
-                if (lp.width == LayoutParams.MATCH_PARENT) {
+//                if (lp.width == LayoutParams.MATCH_PARENT) {
                     // Temporarily force children to reuse their old measured height
                     // FIXME: this may not be right for something like wrapping text?
                     int oldHeight = lp.height;
@@ -681,7 +738,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                     // Remeasue with new dimensions
                     measureChildWithMargins(child, uniformMeasureSpec, 0, heightMeasureSpec, 0);
                     lp.height = oldHeight;
-                }
+//                }
             }
         }
     }
@@ -970,11 +1027,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 }
 
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-                ////////////////////////////////////
-                if (lp.height < totalCircleHeight) {
-                    lp.height = totalCircleHeight;
-                }
-                //////////////////////////////////
+
                 final float childWeight = lp.weight;
                 if (childWeight > 0) {
                     final int share = (int) (childWeight * remainingExcess / remainingWeightSum);

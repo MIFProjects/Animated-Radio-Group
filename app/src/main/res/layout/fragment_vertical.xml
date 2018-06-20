@@ -13,18 +13,19 @@
 
         <com.mif.animatedradiogrpouplib.AnimatedRadioGroup
             android:id="@+id/animatedRG1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible"
             app:circleCenterFillRadius="13dp"
             app:circleFillColor="@color/colorPrimary"
-            app:circleGravity="center"
+            app:circleGravity="top"
             app:circlePaddingLeft="15dp"
             app:circleRadius="17dp"
             app:circleStrokeColor="@color/colorPrimaryDark"
             app:circleStrokeWidth="3dp"
             app:separatorColor="@color/colorDivider"
+            app:separatorStrokeWidth="12dp"
             app:setFullItemForClick="false"
             app:setSeparator="true">
 
@@ -60,8 +61,8 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp">
 
@@ -99,8 +100,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <ImageView
@@ -133,7 +134,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">
@@ -157,7 +158,7 @@
 
         <com.mif.animatedradiogrpouplib.AnimatedRadioGroup
             android:id="@+id/animatedRG2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="visible"
@@ -173,7 +174,7 @@
             app:setSeparator="true">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="10dp">
@@ -275,8 +276,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center">
 
                 <Button
@@ -295,6 +296,713 @@
             </LinearLayout>
 
         </com.mif.animatedradiogrpouplib.AnimatedRadioGroup>
+
+        <com.mif.animatedradiogrpouplib.AnimatedRadioGroup
+            android:id="@+id/animatedRG3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:weightSum="5"
+            app:circleCenterFillRadius="13dp"
+            app:circleFillColor="@color/colorPrimary"
+            app:circleGravity="center"
+            app:circlePaddingLeft="15dp"
+            app:circleRadius="17dp"
+            app:circleStrokeColor="@color/colorPrimaryDark"
+            app:circleStrokeWidth="3dp"
+            app:separatorColor="@color/colorDivider"
+            app:setFullItemForClick="false"
+            app:setSeparator="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="right|end"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewGirl3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/girl" />
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    android:layout_toRightOf="@+id/imageViewGirl3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText" />
+                </ScrollView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 1"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 2"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="2"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/boy" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl_2" />
+
+            </LinearLayout>
+
+
+
+        </com.mif.animatedradiogrpouplib.AnimatedRadioGroup>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:weightSum="4">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewGirl6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/girl" />
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imageViewGirl6">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText" />
+                </ScrollView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/boy" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 1"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 2"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.mif.animatedradiogrpouplib.AnimatedRadioGroup
+            android:id="@+id/animatedRG4"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:circleCenterFillRadius="13dp"
+            app:circleFillColor="@color/colorPrimary"
+            app:circleGravity="center"
+            app:circlePaddingLeft="15dp"
+            app:circleRadius="17dp"
+            app:circleStrokeColor="@color/colorPrimaryDark"
+            app:circleStrokeWidth="3dp"
+            app:separatorColor="@color/colorDivider"
+            app:setFullItemForClick="false"
+            app:setSeparator="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewGirl4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/girl" />
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/imageViewGirl4">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText" />
+                </ScrollView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/boy" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 1"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 2"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+        </com.mif.animatedradiogrpouplib.AnimatedRadioGroup>
+
+        <com.mif.animatedradiogrpouplib.AnimatedRadioGroup
+            android:id="@+id/animatedRG5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:circleCenterFillRadius="13dp"
+            app:circleFillColor="@color/colorPrimary"
+            app:circleGravity="center"
+            app:circlePaddingLeft="15dp"
+            app:circleRadius="17dp"
+            app:circleStrokeColor="@color/colorPrimaryDark"
+            app:circleStrokeWidth="3dp"
+            app:separatorColor="@color/colorDivider"
+            app:separatorStrokeWidth="20dp"
+            app:setFullItemForClick="false"
+            app:setSeparator="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewGirl7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/girl" />
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/imageViewGirl7">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText" />
+                </ScrollView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:padding="10dp">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                </ScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/boy" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 1"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 2"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+        </com.mif.animatedradiogrpouplib.AnimatedRadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewGirl5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/girl" />
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/imageViewGirl5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText" />
+                </ScrollView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--<ScrollView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1">-->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                <!--</ScrollView>-->
+
+                <!--<ScrollView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1">-->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/loremIpsum"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="11sp" />
+                <!--</ScrollView>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/boy" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/girl_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 1"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button 2"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
