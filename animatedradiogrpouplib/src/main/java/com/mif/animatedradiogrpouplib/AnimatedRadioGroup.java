@@ -76,6 +76,8 @@ public class AnimatedRadioGroup extends LinearLayout {
     private int strokeWidth = STROKE_WIDTH;
     private int circleGravity = Gravity.TOP;
     private int animationType = BUBBLE_ANIMATION;
+    private int separatorMargitStart;
+    private int separatorMargitEnd;
     private boolean fullItemForClick = false;
 
     private boolean isSeparate = false;
@@ -100,8 +102,6 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int INDEX_BOTTOM = 2;
     private static final int INDEX_FILL = 3;
     private int mGravity = Gravity.START | Gravity.TOP;
-
-    private boolean isTotalWidthAdded = false;
 
     CanvasAnimator canvasAnimator;
 
@@ -144,6 +144,8 @@ public class AnimatedRadioGroup extends LinearLayout {
             separatorWidth = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorStrokeWidth, STROKE_WIDTH);
             animationType = a.getInt(R.styleable.AnimatedRadioGroup_animationType, BUBBLE_ANIMATION);
             fullItemForClick = a.getBoolean(R.styleable.AnimatedRadioGroup_setFullItemForClick, false);
+            separatorMargitStart = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorMargitStart, 0);
+            separatorMargitEnd = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorMargitEnd, 0);
 
             a.recycle();
         }
@@ -231,6 +233,7 @@ public class AnimatedRadioGroup extends LinearLayout {
         canvasAnimator.setupCircle(circleItem);
         canvasAnimator.setParent(this);
         canvasAnimator.setOvalActive(ovalActive);
+        requestLayout();
         canvasAnimator.init();
     }
 
@@ -501,12 +504,8 @@ public class AnimatedRadioGroup extends LinearLayout {
                 }
 
                 final int totalLength = mTotalLength;
-                int separatorWidth = 0;
-                if (hasDividerBeforeChildAt(i)) {
-                    separatorWidth = this.separatorWidth;
-                }
                 mTotalLength = Math.max(totalLength, totalLength + childHeight + lp.topMargin +
-                        lp.bottomMargin + separatorWidth);
+                        lp.bottomMargin);
 
                 if (useLargestChild) {
                     largestChildHeight = Math.max(childHeight, largestChildHeight);
@@ -560,10 +559,6 @@ public class AnimatedRadioGroup extends LinearLayout {
                         matchWidthLocally ? margin : measuredWidth);
             }
 
-        }
-
-        if (nonSkippedChildCount > 0 && hasDividerBeforeChildAt(count)) {
-            mTotalLength += separatorWidth;
         }
 
         if (useLargestChild &&
@@ -803,13 +798,7 @@ public class AnimatedRadioGroup extends LinearLayout {
             }
 
 
-            ///////////////////
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-//            if (lp.height < TOTAL_CIRCLE_HEIGHT) {
-//                lp.height = TOTAL_CIRCLE_HEIGHT;
-//            }
-//            lp.width += TOTAL_CIRCLE_WIDTH;
-            //////////////////////////
 
 
             totalWeight += lp.weight;
@@ -1320,12 +1309,12 @@ public class AnimatedRadioGroup extends LinearLayout {
                 if (hasDividerBeforeChildAt(i)) {
                     childTop += lp.topMargin;
                     setChildFrame(child, childLeft, childLeft + childWidth, childTop,
-                            childTop + childHeight + separatorWidth, childWidth, childHeight);
+                            childTop + childHeight + separatorWidth, childWidth, childHeight, VERTICAL);
                     childTop += childHeight + lp.bottomMargin + separatorWidth;
                 } else {
                     childTop += lp.topMargin;
                     setChildFrame(child, childLeft, childLeft + childWidth,
-                            childTop, childTop + childHeight, childWidth, childHeight);
+                            childTop, childTop + childHeight, childWidth, childHeight, VERTICAL);
                     childTop += childHeight + lp.bottomMargin;
                 }
             }
@@ -1442,11 +1431,12 @@ public class AnimatedRadioGroup extends LinearLayout {
                 if (hasDividerBeforeChildAt(i)) {
                     childLeft += lp.leftMargin + totalCircleWidth;
                     setChildFrame(child, childLeft, childLeft + childWidth + separatorWidth,
-                            childTop, childTop + height, childWidth, childHeight);
+                            childTop, childTop + height, childWidth, childHeight, HORIZONTAL);
                 } else {
                     childLeft += lp.leftMargin + totalCircleWidth;
                     setChildFrame(child, childLeft, childLeft + childWidth + separatorWidth,
-                            childTop, childTop + height, childWidth + separatorWidth, childHeight);
+                            childTop, childTop + height, childWidth + separatorWidth,
+                            childHeight, HORIZONTAL);
                 }
 
 //                if (i + 1 != getChildCount()) {
@@ -1458,19 +1448,33 @@ public class AnimatedRadioGroup extends LinearLayout {
         }
     }
 
-    private void setChildFrame(View child, int left, int right, int top, int bottom, int width, int height) {
+    private void setChildFrame(View child, int left, int right, int top, int bottom, int width,
+                               int height, int orientation) {
         child.layout(left, top, left + width, top + height);
 
         int yAxis = 0;
         switch (circleGravity) {
             case Gravity.TOP:
-                yAxis = top + radius + circlePaddingTop + strokeWidth;
+                if (HORIZONTAL == orientation) {
+                    yAxis = radius + circlePaddingTop + strokeWidth;
+                } else {
+                    yAxis = top + radius + circlePaddingTop + strokeWidth;
+                }
                 break;
             case Gravity.CENTER:
-                yAxis = ((child.getHeight() / 2)) + top;
+                if (HORIZONTAL == orientation) {
+                    yAxis = ((getHeight() / 2));
+                } else  {
+                    yAxis = ((child.getHeight() / 2)) + top;
+                }
+
                 break;
             case Gravity.BOTTOM:
-                yAxis = ((child.getHeight()) - radius - circlePaddingBottom) + top;
+                if (HORIZONTAL == orientation) {
+                    yAxis = ((getHeight()) - radius - circlePaddingBottom);
+                }else {
+                    yAxis = ((child.getHeight()) - radius - circlePaddingBottom) + top;
+                }
                 break;
         }
 
@@ -1484,7 +1488,11 @@ public class AnimatedRadioGroup extends LinearLayout {
         bgColors.add(color);
 
         circles.add(new PointF(left - radius - strokeWidth - circlePaddingRight, yAxis));
-        rects.add(new Rect(left - totalCircleWidth, top, right, bottom));
+        if (orientation == HORIZONTAL) {
+            rects.add(new Rect(left - totalCircleWidth, separatorMargitStart, right, bottom - separatorMargitEnd));
+        } else {
+            rects.add(new Rect(left - totalCircleWidth + separatorMargitStart, top, getWidth() - separatorMargitEnd, bottom));
+        }
     }
 
     public int getCheckedItem() {

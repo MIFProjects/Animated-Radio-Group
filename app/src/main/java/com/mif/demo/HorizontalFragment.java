@@ -9,8 +9,12 @@ import com.mif.animatedradiogrpouplib.AnimatedRadioGroup;
 
 public class HorizontalFragment extends BaseFragment {
 
-    private AnimatedRadioGroup animationFirst;
-    private AnimatedRadioGroup animationSecond;
+
+    private AnimatedRadioGroup animatedWrapContent;
+    private AnimatedRadioGroup animatedMatchParent;
+    private AnimatedRadioGroup animatedWeight;
+    private AnimatedRadioGroup animatedFixSize;
+    private AnimatedRadioGroup animatedWrapContentWithFixContent;
 
     public HorizontalFragment() {
         // Required empty public constructor
@@ -21,14 +25,20 @@ public class HorizontalFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_horizontal, container, false);
-        animationFirst = (AnimatedRadioGroup) view.findViewById(R.id.animatedRG1);
-        animationSecond = (AnimatedRadioGroup) view.findViewById(R.id.animatedRG2);
+        animatedWrapContent = (AnimatedRadioGroup) view.findViewById(R.id.animatedWrapContent);
+        animatedMatchParent = (AnimatedRadioGroup) view.findViewById(R.id.animatedMatchParent);
+        animatedWeight = (AnimatedRadioGroup) view.findViewById(R.id.animatedWeight);
+        animatedFixSize = (AnimatedRadioGroup) view.findViewById(R.id.animatedFixSize);
+        animatedWrapContentWithFixContent = (AnimatedRadioGroup) view.findViewById(R.id.animatedWrapContentWithFixContent);
         return view;
     }
 
     @Override
     public void applyAnimationToView(int indexOf) {
-        animationFirst.selectAnimation(indexOf);
-        animationSecond.selectAnimation(indexOf);
+        animatedWrapContent.selectAnimation(indexOf);
+        animatedMatchParent.selectAnimation(indexOf);
+        animatedWeight.selectAnimation(indexOf);
+        animatedFixSize.selectAnimation(indexOf);
+        animatedWrapContentWithFixContent.selectAnimation(indexOf);
     }
 }
