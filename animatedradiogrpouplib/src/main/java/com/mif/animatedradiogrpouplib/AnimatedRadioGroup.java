@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.IdRes;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
@@ -49,10 +50,9 @@ public class AnimatedRadioGroup extends LinearLayout {
     private static final int CIRCLE_PADDING_TOP = 20;
     private static final int CIRCLE_PADDING_BOTTOM = 5;
 
-    public static final int CIRCLE_COLOR = Color.DKGRAY;
-    public static final int STROKE_WIDTH = 3;
-    public int totalCircleWidth;
-    public int totalCircleHeight;
+    private static final int STROKE_WIDTH = 3;
+    private int totalCircleWidth;
+    private int totalCircleHeight;
 
     private Paint pathPaint;
     private Paint inactivePaint;
@@ -63,17 +63,17 @@ public class AnimatedRadioGroup extends LinearLayout {
     private List<Rect> rects = new ArrayList<>();
     private List<Integer> bgColors = new ArrayList<Integer>();
 
-    public PointF ovalActive;
+    private PointF ovalActive;
 
-    private int color = CIRCLE_COLOR;
-    private int colorStroke = color;
-    private int radius = RADIUS;
-    public int circleCenterFillRadius = radius;
+    private int circleFillColor = Color.DKGRAY;
+    private int circleStrokeColor = Color.DKGRAY;
+    private int circleRadius = RADIUS;
+    private int circleCenterFillRadius = circleRadius;
     private int circlePaddingRight = CIRCLE_PADDING_RIGHT;
     private int circlePaddingLeft = CIRCLE_PADDING_LEFT;
     private int circlePaddingTop = CIRCLE_PADDING_TOP;
     private int circlePaddingBottom = CIRCLE_PADDING_TOP;
-    private int strokeWidth = STROKE_WIDTH;
+    private int circleStrokeWidth = STROKE_WIDTH;
     private int circleGravity = Gravity.TOP;
     private int animationType = BUBBLE_ANIMATION;
     private int separatorMargitStart;
@@ -105,6 +105,14 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     CanvasAnimator canvasAnimator;
 
+    @IntDef({BUBBLE_ANIMATION, JUMP_ANIMATION, FADE_ANIMATION,GRAVITY_ANIMATION,YOYO_ANIMATION,
+            NONE_ANIMATION,RAIL_LINE_ANIMATION, DRAW_X_ANIMAITON,DRAW_Y_ANIMAITON})
+    public @interface AnimationType {}
+
+
+    @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
+    public @interface GravityMode {}
+
     private AnimatedRadioGroup.OnCheckedChangeListener mOnCheckedChangeListener;
 
 
@@ -128,19 +136,19 @@ public class AnimatedRadioGroup extends LinearLayout {
     private void initXmlStyle(AttributeSet attrs) {
         if (attrs != null) {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.AnimatedRadioGroup);
-            color = a.getColor(R.styleable.AnimatedRadioGroup_circleFillColor, color);
-            colorStroke = a.getColor(R.styleable.AnimatedRadioGroup_circleStrokeColor, colorStroke);
-            radius = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circleRadius, RADIUS);
-            circleCenterFillRadius = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circleCenterFillRadius, radius);
+            circleFillColor = a.getColor(R.styleable.AnimatedRadioGroup_circleFillColor, Color.DKGRAY);
+            circleStrokeColor = a.getColor(R.styleable.AnimatedRadioGroup_circleStrokeColor, Color.DKGRAY);
+            circleRadius = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circleRadius, RADIUS);
+            circleCenterFillRadius = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circleCenterFillRadius, RADIUS);
 
             circlePaddingTop = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circlePaddingTop, CIRCLE_PADDING_TOP);
             circlePaddingBottom = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circlePaddingBottom, CIRCLE_PADDING_BOTTOM);
             circlePaddingLeft = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circlePaddingLeft, CIRCLE_PADDING_LEFT);
             circlePaddingRight = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circlePaddingRight, CIRCLE_PADDING_RIGHT);
-            strokeWidth = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circleStrokeWidth, STROKE_WIDTH);
+            circleStrokeWidth = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_circleStrokeWidth, STROKE_WIDTH);
             circleGravity = a.getInt(R.styleable.AnimatedRadioGroup_circleGravity, Gravity.TOP);
-            isSeparate = a.getBoolean(R.styleable.AnimatedRadioGroup_setSeparator, isSeparate);
-            separatorColor = a.getColor(R.styleable.AnimatedRadioGroup_separatorColor, separatorColor);
+            isSeparate = a.getBoolean(R.styleable.AnimatedRadioGroup_setSeparator, false);
+            separatorColor = a.getColor(R.styleable.AnimatedRadioGroup_separatorColor, Color.WHITE);
             separatorWidth = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorStrokeWidth, STROKE_WIDTH);
             animationType = a.getInt(R.styleable.AnimatedRadioGroup_animationType, BUBBLE_ANIMATION);
             fullItemForClick = a.getBoolean(R.styleable.AnimatedRadioGroup_setFullItemForClick, false);
@@ -158,19 +166,19 @@ public class AnimatedRadioGroup extends LinearLayout {
 
         setWillNotDraw(false);
 
-        totalCircleWidth = circlePaddingRight + circlePaddingLeft + radius * 2 + (strokeWidth * 2);
-        totalCircleHeight = circlePaddingTop + circlePaddingBottom + radius * 2 + (strokeWidth * 2);
+        totalCircleWidth = circlePaddingRight + circlePaddingLeft + circleRadius * 2 + (circleStrokeWidth * 2);
+        totalCircleHeight = circlePaddingTop + circlePaddingBottom + circleRadius * 2 + (circleStrokeWidth * 2);
 
         pathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        pathPaint.setColor(color);
+        pathPaint.setColor(circleFillColor);
         pathPaint.setStyle(Paint.Style.FILL);
-        pathPaint.setStrokeWidth(strokeWidth);
+        pathPaint.setStrokeWidth(circleStrokeWidth);
 
 
         inactivePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        inactivePaint.setColor(colorStroke);
+        inactivePaint.setColor(circleStrokeColor);
         inactivePaint.setStyle(Paint.Style.STROKE);
-        inactivePaint.setStrokeWidth(strokeWidth);
+        inactivePaint.setStrokeWidth(circleStrokeWidth);
 
         separatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         separatorPaint.setColor(separatorColor);
@@ -182,17 +190,16 @@ public class AnimatedRadioGroup extends LinearLayout {
 
         separatorRect = new Rect();
 
-
         circleItem = new CircleItem();
-        circleItem.setOutlineCircleRadius(radius);
+        circleItem.setOutlineCircleRadius(circleRadius);
         circleItem.setCenterFillCircleRadius(circleCenterFillRadius);
         circleItem.setCenterFillCirclePaint(pathPaint);
-
         selectAnimation(animationType);
-
     }
 
-    public void selectAnimation(int animationType) {
+
+
+    public void selectAnimation(@AnimationType int animationType) {
         CanvasAnimator animator;
         switch (animationType) {
             case JUMP_ANIMATION:
@@ -234,8 +241,100 @@ public class AnimatedRadioGroup extends LinearLayout {
         canvasAnimator.setParent(this);
         canvasAnimator.setOvalActive(ovalActive);
         requestLayout();
+        invalidate();
         canvasAnimator.init();
     }
+
+    public void setCircleFillColor(int circleColor) {
+        circleFillColor = circleColor;
+        invalidate();
+    }
+
+    public int getCircleFillColor() {
+        return circleFillColor;
+    }
+
+    private void setCircleCenterFillRadius(int size) {
+        circleCenterFillRadius = size;
+        invalidate();
+    }
+
+    public int getCircleCenterFillRadius() {
+        return circleCenterFillRadius;
+    }
+
+    public void setCircleStrokeColor(int circleStrokeColor) {
+        this.circleStrokeColor = circleStrokeColor;
+        invalidate();
+    }
+
+    public int getCircleStrokeColor() {
+        return circleStrokeColor;
+    }
+
+    public void setCirclePaddingTop(int circlePaddingTop) {
+        this.circlePaddingTop = circlePaddingTop;
+        invalidate();
+    }
+
+    public int getCirclePaddingTop() {
+        return circlePaddingTop;
+    }
+
+    public void setCirclePaddingBottom(int circlePaddingBottom) {
+        this.circlePaddingBottom = circlePaddingBottom;
+        invalidate();
+    }
+
+    public int getCirclePaddingBottom() {
+        return this.circlePaddingBottom;
+    }
+
+    public void setCirclePaddingLeft(int circlePaddingLeft) {
+        this.circlePaddingLeft = circlePaddingLeft;
+        invalidate();
+    }
+
+    public int getCirclePaddingLeft() {
+        return circlePaddingLeft;
+    }
+
+    public void setCirclePaddingRight(int circlePaddingRight) {
+        this.circlePaddingRight = circlePaddingRight;
+        invalidate();
+    }
+
+    public int getCirclePaddingRight() {
+        return this.circlePaddingRight;
+    }
+
+    public void setCircleStrokeWidth(int circleStrokeWidth) {
+        this.circleStrokeWidth = circleStrokeWidth;
+        invalidate();
+    }
+
+    public int getCircleStrokeWidth() {
+        return circleStrokeWidth;
+    }
+
+    public void setCircleGravity(@GravityMode int circleGravity) {
+        this.circleGravity = circleGravity;
+        invalidate();
+    }
+
+    public int getCircleGravity() {
+        return circleGravity;
+    }
+
+    public void setFullItemForClick(boolean fullItemForClick) {
+        this.fullItemForClick = fullItemForClick;
+        invalidate();
+    }
+
+    public boolean isFullItemForClick() {
+        return fullItemForClick;
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -261,7 +360,7 @@ public class AnimatedRadioGroup extends LinearLayout {
             }
 
             PointF circle = circles.get(i);
-            canvas.drawCircle(circle.x, circle.y, radius, inactivePaint);
+            canvas.drawCircle(circle.x, circle.y, circleRadius, inactivePaint);
         }
 
         if (!circles.isEmpty()) {
@@ -360,7 +459,7 @@ public class AnimatedRadioGroup extends LinearLayout {
             }
         } else {
             for (PointF circle : circles) {
-                if (new RectF(circle.x - radius, circle.y - radius, circle.x + radius, circle.y + radius).contains(lastMotionX, lastMotionY)) {
+                if (new RectF(circle.x - circleRadius, circle.y - circleRadius, circle.x + circleRadius, circle.y + circleRadius).contains(lastMotionX, lastMotionY)) {
                     return true;
                 }
             }
@@ -386,7 +485,7 @@ public class AnimatedRadioGroup extends LinearLayout {
         } else {
             for (int i = 0; i < circles.size(); i++) {
                 PointF rect = circles.get(i);
-                if (new RectF(rect.x - radius, rect.y - radius, rect.x + radius, rect.y + radius).contains(lastMotionX, lastMotionY)) {
+                if (new RectF(rect.x - circleRadius, rect.y - circleRadius, rect.x + circleRadius, rect.y + circleRadius).contains(lastMotionX, lastMotionY)) {
                     return i;
                 }
             }
@@ -414,6 +513,7 @@ public class AnimatedRadioGroup extends LinearLayout {
             measureHorizontal(widthMeasureSpec, heightMeasureSpec);
         }
     }
+
     /**
      * Measures the children when the orientation of this LinearLayout is set
      * to {@link #VERTICAL}.
@@ -447,7 +547,6 @@ public class AnimatedRadioGroup extends LinearLayout {
         int largestChildHeight = Integer.MIN_VALUE;
         int consumedExcessSpace = 0;
 
-        int nonSkippedChildCount = 0;
 
         // See how tall everyone is. Also remember max width.
         for (int i = 0; i < count; ++i) {
@@ -460,7 +559,6 @@ public class AnimatedRadioGroup extends LinearLayout {
                 continue;
             }
 
-            nonSkippedChildCount++;
             if (hasDividerBeforeChildAt(i)) {
                 mTotalLength += separatorWidth;
             }
@@ -582,7 +680,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 // Account for negative margins
                 final int totalLength = mTotalLength;
                 mTotalLength = Math.max(totalLength, totalLength + largestChildHeight +
-                        lp.topMargin + lp.bottomMargin
+                                lp.topMargin + lp.bottomMargin
 //                        + getNextLocationOffset(child)
                 );
             }
@@ -648,7 +746,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
                     // Child may now not fit in vertical dimension.
                     childState = combineMeasuredStates(childState, child.getMeasuredState()
-                            & (MEASURED_STATE_MASK>>MEASURED_HEIGHT_STATE_SHIFT));
+                            & (MEASURED_STATE_MASK >> MEASURED_HEIGHT_STATE_SHIFT));
                 }
 
                 final int margin = lp.leftMargin + lp.rightMargin;
@@ -689,7 +787,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                     float childExtra = lp.weight;
                     if (childExtra > 0) {
                         child.measure(
-                                MeasureSpec.makeMeasureSpec(child.getMeasuredWidth()-totalCircleWidth,
+                                MeasureSpec.makeMeasureSpec(child.getMeasuredWidth() - totalCircleWidth,
                                         MeasureSpec.EXACTLY),
                                 MeasureSpec.makeMeasureSpec(largestChildHeight,
                                         MeasureSpec.EXACTLY));
@@ -725,14 +823,14 @@ public class AnimatedRadioGroup extends LinearLayout {
                 LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams) child.getLayoutParams());
 
 //                if (lp.width == LayoutParams.MATCH_PARENT) {
-                    // Temporarily force children to reuse their old measured height
-                    // FIXME: this may not be right for something like wrapping text?
-                    int oldHeight = lp.height;
-                    lp.height = child.getMeasuredHeight();
+                // Temporarily force children to reuse their old measured height
+                // FIXME: this may not be right for something like wrapping text?
+                int oldHeight = lp.height;
+                lp.height = child.getMeasuredHeight();
 
-                    // Remeasue with new dimensions
-                    measureChildWithMargins(child, uniformMeasureSpec, 0, heightMeasureSpec, 0);
-                    lp.height = oldHeight;
+                // Remeasue with new dimensions
+                measureChildWithMargins(child, uniformMeasureSpec, 0, heightMeasureSpec, 0);
+                lp.height = oldHeight;
 //                }
             }
         }
@@ -858,7 +956,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 ////////////////////////
                 final int childWidth;
 //                if (hasDividerBeforeChildAt(i)) {
-                    childWidth = child.getMeasuredWidth() + totalCircleWidth;
+                childWidth = child.getMeasuredWidth() + totalCircleWidth;
 //                } else {
 //                    childWidth = child.getMeasuredWidth() + TOTAL_CIRCLE_WIDTH;
 //                }
@@ -1456,24 +1554,24 @@ public class AnimatedRadioGroup extends LinearLayout {
         switch (circleGravity) {
             case Gravity.TOP:
                 if (HORIZONTAL == orientation) {
-                    yAxis = radius + circlePaddingTop + strokeWidth;
+                    yAxis = circleRadius + circlePaddingTop + circleStrokeWidth;
                 } else {
-                    yAxis = top + radius + circlePaddingTop + strokeWidth;
+                    yAxis = top + circleRadius + circlePaddingTop + circleStrokeWidth;
                 }
                 break;
             case Gravity.CENTER:
                 if (HORIZONTAL == orientation) {
                     yAxis = ((getHeight() / 2));
-                } else  {
+                } else {
                     yAxis = ((child.getHeight() / 2)) + top;
                 }
 
                 break;
             case Gravity.BOTTOM:
                 if (HORIZONTAL == orientation) {
-                    yAxis = ((getHeight()) - radius - circlePaddingBottom);
-                }else {
-                    yAxis = ((child.getHeight()) - radius - circlePaddingBottom) + top;
+                    yAxis = ((getHeight()) - circleRadius - circlePaddingBottom);
+                } else {
+                    yAxis = ((child.getHeight()) - circleRadius - circlePaddingBottom) + top;
                 }
                 break;
         }
@@ -1487,14 +1585,18 @@ public class AnimatedRadioGroup extends LinearLayout {
         }
         bgColors.add(color);
 
-        circles.add(new PointF(left - radius - strokeWidth - circlePaddingRight, yAxis));
+        circles.add(new PointF(left - circleRadius - circleStrokeWidth - circlePaddingRight, yAxis));
         if (orientation == HORIZONTAL) {
-            rects.add(new Rect(left - totalCircleWidth, separatorMargitStart, right, bottom - separatorMargitEnd));
+            rects.add(new Rect(left - totalCircleWidth, separatorMargitStart, right, getHeight() - separatorMargitEnd));
         } else {
             rects.add(new Rect(left - totalCircleWidth + separatorMargitStart, top, getWidth() - separatorMargitEnd, bottom));
         }
     }
 
+
+    /**
+     * @return index of item which select
+     */
     public int getCheckedItem() {
         return activeIndex;
     }
@@ -1505,6 +1607,10 @@ public class AnimatedRadioGroup extends LinearLayout {
             setSelection(index);
     }
 
+
+    /**
+     * @param listener call when selected item and g item position
+     */
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         mOnCheckedChangeListener = listener;
     }
