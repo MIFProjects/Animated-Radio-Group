@@ -34,20 +34,20 @@ public class HorizontalFragment extends BaseFragment {
         animatedWrapContentWithFixContent = (AnimatedRadioGroup) view.findViewById(R.id.animatedWrapContentWithFixContent);
 
 //
-//        animatedWrapContent.setCircleCenterFillRadius((int) getResources().getDimension(R.dimen.circleFillRadius));
-//        animatedWrapContent.setCircleFillColor(getResources().getColor(R.color.colorPrimary));
-//        animatedWrapContent.setCircleGravity(Gravity.CENTER);
-//        animatedWrapContent.setCirclePaddingLeft((int) getResources().getDimension(R.dimen.circlePaddingLeft));
-//        animatedWrapContent.setCirclePaddingRight((int) getResources().getDimension(R.dimen.circlePaddingLeft));
-//        animatedWrapContent.setCircleRadius((int) getResources().getDimension(R.dimen.circleRadius));
-//        animatedWrapContent.setCircleStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
-//        animatedWrapContent.setCircleStrokeWidth((int)getResources().getDimension(R.dimen.circleStrokeWidth));
-//        animatedWrapContent.setSeparatorColor(getResources().getColor(R.color.colorDivider));
-//        animatedWrapContent.setSeparatorMarginEnd((int)getResources().getDimension(R.dimen.separatorMargin));
-//        animatedWrapContent.setSeparatorMarginStart((int)getResources().getDimension(R.dimen.separatorMargin));
-//        animatedWrapContent.setSeparatorStrokeWidth((int)getResources().getDimension(R.dimen.separatorStrokeWidth));
-//        animatedWrapContent.setFullItemForClick(false);
-//        animatedWrapContent.setSeparator(false);
+        animatedWrapContent.setCircleCenterFillRadius((int) getResources().getDimension(R.dimen.circleFillRadius));
+        animatedWrapContent.setCircleFillColor(getResources().getColor(R.color.colorPrimary));
+        animatedWrapContent.setCircleGravity(Gravity.CENTER);
+        animatedWrapContent.setCirclePaddingLeft((int) getResources().getDimension(R.dimen.circlePaddingLeft));
+        animatedWrapContent.setCirclePaddingRight((int) getResources().getDimension(R.dimen.circlePaddingLeft));
+        animatedWrapContent.setCircleRadius((int) getResources().getDimension(R.dimen.circleRadius));
+        animatedWrapContent.setCircleStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+        animatedWrapContent.setCircleStrokeWidth((int)getResources().getDimension(R.dimen.circleStrokeWidth));
+        animatedWrapContent.setSeparatorColor(getResources().getColor(R.color.colorDivider));
+        animatedWrapContent.setSeparatorMarginEnd((int)getResources().getDimension(R.dimen.separatorMargin));
+        animatedWrapContent.setSeparatorMarginStart((int)getResources().getDimension(R.dimen.separatorMargin));
+        animatedWrapContent.setSeparatorStrokeWidth((int)getResources().getDimension(R.dimen.separatorStrokeWidth));
+        animatedWrapContent.setFullItemForClick(false);
+        animatedWrapContent.setSeparator(false);
 
 
 
