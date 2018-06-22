@@ -76,8 +76,8 @@ public class AnimatedRadioGroup extends LinearLayout {
     private int circleStrokeWidth = STROKE_WIDTH;
     private int circleGravity = Gravity.TOP;
     private int animationType = BUBBLE_ANIMATION;
-    private int separatorMargitStart;
-    private int separatorMargitEnd;
+    private int separatorMarginStart;
+    private int separatorMarginEnd;
     private boolean fullItemForClick = false;
 
     private boolean isSeparate = false;
@@ -152,8 +152,8 @@ public class AnimatedRadioGroup extends LinearLayout {
             separatorWidth = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorStrokeWidth, STROKE_WIDTH);
             animationType = a.getInt(R.styleable.AnimatedRadioGroup_animationType, BUBBLE_ANIMATION);
             fullItemForClick = a.getBoolean(R.styleable.AnimatedRadioGroup_setFullItemForClick, false);
-            separatorMargitStart = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorMargitStart, 0);
-            separatorMargitEnd = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorMargitEnd, 0);
+            separatorMarginStart = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorMarginStart, 0);
+            separatorMarginEnd = a.getDimensionPixelSize(R.styleable.AnimatedRadioGroup_separatorMarginEnd, 0);
 
             a.recycle();
         }
@@ -247,6 +247,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCircleFillColor(int circleColor) {
         circleFillColor = circleColor;
+        init();
         invalidate();
     }
 
@@ -254,8 +255,9 @@ public class AnimatedRadioGroup extends LinearLayout {
         return circleFillColor;
     }
 
-    private void setCircleCenterFillRadius(int size) {
+    public void setCircleCenterFillRadius(int size) {
         circleCenterFillRadius = size;
+        init();
         invalidate();
     }
 
@@ -265,6 +267,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCircleStrokeColor(int circleStrokeColor) {
         this.circleStrokeColor = circleStrokeColor;
+        init();
         invalidate();
     }
 
@@ -274,6 +277,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCirclePaddingTop(int circlePaddingTop) {
         this.circlePaddingTop = circlePaddingTop;
+        init();
         invalidate();
     }
 
@@ -283,6 +287,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCirclePaddingBottom(int circlePaddingBottom) {
         this.circlePaddingBottom = circlePaddingBottom;
+        init();
         invalidate();
     }
 
@@ -292,6 +297,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCirclePaddingLeft(int circlePaddingLeft) {
         this.circlePaddingLeft = circlePaddingLeft;
+        init();
         invalidate();
     }
 
@@ -301,6 +307,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCirclePaddingRight(int circlePaddingRight) {
         this.circlePaddingRight = circlePaddingRight;
+        init();
         invalidate();
     }
 
@@ -310,6 +317,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCircleStrokeWidth(int circleStrokeWidth) {
         this.circleStrokeWidth = circleStrokeWidth;
+        init();
         invalidate();
     }
 
@@ -319,6 +327,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setCircleGravity(@GravityMode int circleGravity) {
         this.circleGravity = circleGravity;
+        init();
         invalidate();
     }
 
@@ -328,6 +337,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     public void setFullItemForClick(boolean fullItemForClick) {
         this.fullItemForClick = fullItemForClick;
+        init();
         invalidate();
     }
 
@@ -335,6 +345,54 @@ public class AnimatedRadioGroup extends LinearLayout {
         return fullItemForClick;
     }
 
+    public void setCircleRadius(int circleRadius) {
+        this.circleRadius = circleRadius;
+        init();
+        invalidate();
+    }
+
+    public int getCircleRadius() {
+        return circleRadius;
+    }
+
+    public void setSeparator(boolean isSeparate) {
+        this.isSeparate = isSeparate;
+    }
+
+    public boolean isSeparate() {
+        return isSeparate;
+    }
+    public void setSeparatorColor(int separatorColor) {
+        this.separatorColor = separatorColor;
+    }
+
+    public int getSeparatorColor() {
+        return separatorColor;
+    }
+
+    public void setSeparatorMarginEnd(int separatorMarginEnd) {
+        this.separatorMarginEnd = separatorMarginEnd;
+    }
+
+    public int getSeparatorMarginEnd() {
+        return separatorMarginEnd;
+    }
+
+    public void setSeparatorMarginStart(int separatorMarginStart) {
+        this.separatorMarginStart = separatorMarginStart;
+    }
+
+    public int getSeparatorMarginStart() {
+        return separatorMarginStart;
+    }
+
+    public void setSeparatorStrokeWidth(int separatorWidth) {
+        this.separatorWidth = separatorWidth;
+    }
+
+    public int getSeparatorStrokeWidth() {
+        return separatorWidth;
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -1584,12 +1642,12 @@ public class AnimatedRadioGroup extends LinearLayout {
             child.setBackgroundColor(Color.TRANSPARENT);
         }
         bgColors.add(color);
-
+//        totalCircleWidth = circlePaddingRight + circlePaddingLeft + circleRadius * 2 + (circleStrokeWidth * 2);
         circles.add(new PointF(left - circleRadius - circleStrokeWidth - circlePaddingRight, yAxis));
         if (orientation == HORIZONTAL) {
-            rects.add(new Rect(left - totalCircleWidth, separatorMargitStart, right, getHeight() - separatorMargitEnd));
+            rects.add(new Rect(left - totalCircleWidth, separatorMarginStart, right, getHeight() - separatorMarginEnd));
         } else {
-            rects.add(new Rect(left - totalCircleWidth + separatorMargitStart, top, getWidth() - separatorMargitEnd, bottom));
+            rects.add(new Rect(left - totalCircleWidth + separatorMarginStart, top, getWidth() - separatorMarginEnd, bottom));
         }
     }
 

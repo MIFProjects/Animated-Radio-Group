@@ -19,8 +19,8 @@
         <attr name="separatorColor" format="color" />
         <attr name="separatorStrokeWidth" format="dimension" />
         <attr name="setFullItemForClick" format="boolean" />
-        <attr name="separatorMargitEnd" format="dimension" />
-        <attr name="separatorMargitStart" format="dimension" />
+        <attr name="separatorMarginEnd" format="dimension" />
+        <attr name="separatorMarginStart" format="dimension" />
         <attr name="animationType">
             <flag name="bubble" value="1" />
             <flag name="jump" value="2" />
