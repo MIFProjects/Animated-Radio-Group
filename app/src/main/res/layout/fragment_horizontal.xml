@@ -16,20 +16,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:visibility="visible"
-            app:circleCenterFillRadius="13dp"
-            app:circleFillColor="@color/colorPrimary"
-            app:circleGravity="center"
-            app:circlePaddingLeft="0dp"
-            app:circlePaddingRight="0dp"
-            app:circleRadius="13dp"
-            app:circleStrokeColor="@color/colorPrimaryDark"
-            app:circleStrokeWidth="3dp"
-            app:separatorColor="@color/colorDivider"
-            app:separatorMargitEnd="15dp"
-            app:separatorMargitStart="15dp"
-            app:separatorStrokeWidth="5dp"
-            app:setFullItemForClick="true"
-            app:setSeparator="true">
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -68,8 +55,8 @@
             app:circleStrokeColor="@color/colorPrimaryDark"
             app:circleStrokeWidth="3dp"
             app:separatorColor="@color/colorDivider"
-            app:separatorMargitEnd="15dp"
-            app:separatorMargitStart="15dp"
+            app:separatorMarginEnd="15dp"
+            app:separatorMarginStart="15dp"
             app:separatorStrokeWidth="5dp"
             app:setFullItemForClick="true"
             app:setSeparator="true">
@@ -141,8 +128,8 @@
             app:circleStrokeColor="@color/colorPrimaryDark"
             app:circleStrokeWidth="3dp"
             app:separatorColor="@color/colorDivider"
-            app:separatorMargitEnd="15dp"
-            app:separatorMargitStart="15dp"
+            app:separatorMarginEnd="15dp"
+            app:separatorMarginStart="15dp"
             app:setFullItemForClick="false"
             app:setSeparator="true">
 
@@ -204,8 +191,8 @@
             app:circleStrokeColor="@color/colorPrimaryDark"
             app:circleStrokeWidth="3dp"
             app:separatorColor="@color/colorDivider"
-            app:separatorMargitEnd="15dp"
-            app:separatorMargitStart="15dp"
+            app:separatorMarginEnd="15dp"
+            app:separatorMarginStart="15dp"
             app:setFullItemForClick="false"
             app:setSeparator="true">
 
@@ -263,8 +250,8 @@
             app:circleStrokeColor="@color/colorPrimaryDark"
             app:circleStrokeWidth="3dp"
             app:separatorColor="@color/colorDivider"
-            app:separatorMargitEnd="15dp"
-            app:separatorMargitStart="15dp"
+            app:separatorMarginEnd="15dp"
+            app:separatorMarginStart="15dp"
             app:setFullItemForClick="false"
             app:setSeparator="true">
 

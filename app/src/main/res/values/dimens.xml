@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="circleRadius">16dp</dimen>
+    <dimen name="circleFillRadius">13dp</dimen>
+    <dimen name="circlePaddingLeft">13dp</dimen>
+    <dimen name="circlePaddingRight">13dp</dimen>
+    <dimen name="circleStrokeWidth">2dp</dimen>
+    <dimen name="separatorMargin">15dp</dimen>
+    <dimen name="separatorStrokeWidth">3dp</dimen>
+</resources>

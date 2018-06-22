@@ -25,8 +25,8 @@
             app:circleStrokeColor="@color/colorPrimaryDark"
             app:circleStrokeWidth="3dp"
             app:separatorColor="@color/colorDivider"
-            app:separatorMargitEnd="15dp"
-            app:separatorMargitStart="15dp"
+            app:separatorMarginEnd="15dp"
+            app:separatorMarginStart="15dp"
             app:separatorStrokeWidth="12dp"
             app:setFullItemForClick="false"
             app:setSeparator="true">

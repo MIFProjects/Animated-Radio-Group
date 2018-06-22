@@ -1,9 +1,11 @@
 package com.mif.demo;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mif.animatedradiogrpouplib.AnimatedRadioGroup;
 
@@ -30,6 +32,25 @@ public class HorizontalFragment extends BaseFragment {
         animatedWeight = (AnimatedRadioGroup) view.findViewById(R.id.animatedWeight);
         animatedFixSize = (AnimatedRadioGroup) view.findViewById(R.id.animatedFixSize);
         animatedWrapContentWithFixContent = (AnimatedRadioGroup) view.findViewById(R.id.animatedWrapContentWithFixContent);
+
+//
+//        animatedWrapContent.setCircleCenterFillRadius((int) getResources().getDimension(R.dimen.circleFillRadius));
+//        animatedWrapContent.setCircleFillColor(getResources().getColor(R.color.colorPrimary));
+//        animatedWrapContent.setCircleGravity(Gravity.CENTER);
+//        animatedWrapContent.setCirclePaddingLeft((int) getResources().getDimension(R.dimen.circlePaddingLeft));
+//        animatedWrapContent.setCirclePaddingRight((int) getResources().getDimension(R.dimen.circlePaddingLeft));
+//        animatedWrapContent.setCircleRadius((int) getResources().getDimension(R.dimen.circleRadius));
+//        animatedWrapContent.setCircleStrokeColor(getResources().getColor(R.color.colorPrimaryDark));
+//        animatedWrapContent.setCircleStrokeWidth((int)getResources().getDimension(R.dimen.circleStrokeWidth));
+//        animatedWrapContent.setSeparatorColor(getResources().getColor(R.color.colorDivider));
+//        animatedWrapContent.setSeparatorMarginEnd((int)getResources().getDimension(R.dimen.separatorMargin));
+//        animatedWrapContent.setSeparatorMarginStart((int)getResources().getDimension(R.dimen.separatorMargin));
+//        animatedWrapContent.setSeparatorStrokeWidth((int)getResources().getDimension(R.dimen.separatorStrokeWidth));
+//        animatedWrapContent.setFullItemForClick(false);
+//        animatedWrapContent.setSeparator(false);
+
+
+
         return view;
     }
 

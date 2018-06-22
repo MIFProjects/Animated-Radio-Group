@@ -361,6 +361,7 @@ public class AnimatedRadioGroup extends LinearLayout {
     public boolean isSeparate() {
         return isSeparate;
     }
+
     public void setSeparatorColor(int separatorColor) {
         this.separatorColor = separatorColor;
     }
