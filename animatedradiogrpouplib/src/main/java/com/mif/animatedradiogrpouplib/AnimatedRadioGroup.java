@@ -232,7 +232,6 @@ public class AnimatedRadioGroup extends LinearLayout {
         }
 
         setupAnimation(animator);
-//        setupAnimation(new DrawVAnimation());
     }
 
     public void setupAnimation(CanvasAnimator animator) {
