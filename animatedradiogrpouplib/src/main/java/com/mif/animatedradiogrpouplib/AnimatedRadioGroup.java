@@ -105,13 +105,15 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     CanvasAnimator canvasAnimator;
 
-    @IntDef({BUBBLE_ANIMATION, JUMP_ANIMATION, FADE_ANIMATION,GRAVITY_ANIMATION,YOYO_ANIMATION,
-            NONE_ANIMATION,RAIL_LINE_ANIMATION, DRAW_X_ANIMAITON,DRAW_Y_ANIMAITON})
-    public @interface AnimationType {}
+    @IntDef({BUBBLE_ANIMATION, JUMP_ANIMATION, FADE_ANIMATION, GRAVITY_ANIMATION, YOYO_ANIMATION,
+            NONE_ANIMATION, RAIL_LINE_ANIMATION, DRAW_X_ANIMAITON, DRAW_Y_ANIMAITON})
+    public @interface AnimationType {
+    }
 
 
     @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
-    public @interface GravityMode {}
+    public @interface GravityMode {
+    }
 
     private AnimatedRadioGroup.OnCheckedChangeListener mOnCheckedChangeListener;
 
@@ -198,7 +200,6 @@ public class AnimatedRadioGroup extends LinearLayout {
     }
 
 
-
     public void selectAnimation(@AnimationType int animationType) {
         CanvasAnimator animator;
         switch (animationType) {
@@ -234,6 +235,9 @@ public class AnimatedRadioGroup extends LinearLayout {
         setupAnimation(animator);
     }
 
+    /**
+     * Setup animation for radio group
+     */
     public void setupAnimation(CanvasAnimator animator) {
         canvasAnimator = animator;
         canvasAnimator.setupCircle(circleItem);
@@ -244,16 +248,25 @@ public class AnimatedRadioGroup extends LinearLayout {
         canvasAnimator.init();
     }
 
+    /**
+     * Setup animation for radio group
+     */
     public void setCircleFillColor(int circleColor) {
         circleFillColor = circleColor;
         init();
         invalidate();
     }
 
+    /**
+     * @return color of circle
+     */
     public int getCircleFillColor() {
         return circleFillColor;
     }
 
+    /**
+     * Set radius of circle
+     */
     public void setCircleCenterFillRadius(int size) {
         circleCenterFillRadius = size;
         init();
@@ -723,24 +736,14 @@ public class AnimatedRadioGroup extends LinearLayout {
 
             for (int i = 0; i < count; ++i) {
                 final View child = getChildAt(i);
-                if (child == null) {
-//                    mTotalLength += measureNullChild(i);
-                    continue;
-                }
 
-                if (child.getVisibility() == GONE) {
-//                    i += getChildrenSkipCount(child, i);
-                    continue;
-                }
 
                 final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)
                         child.getLayoutParams();
                 // Account for negative margins
                 final int totalLength = mTotalLength;
                 mTotalLength = Math.max(totalLength, totalLength + largestChildHeight +
-                                lp.topMargin + lp.bottomMargin
-//                        + getNextLocationOffset(child)
-                );
+                        lp.topMargin + lp.bottomMargin);
             }
         }
 
@@ -826,7 +829,6 @@ public class AnimatedRadioGroup extends LinearLayout {
 
             // Add in our padding
             mTotalLength += getPaddingTop() + getPaddingBottom();
-            // TODO: Should we recompute the heightSpec based on the new total length?
         } else {
             alternativeMaxWidth = Math.max(alternativeMaxWidth,
                     weightedMaxWidth);
@@ -873,6 +875,7 @@ public class AnimatedRadioGroup extends LinearLayout {
 
     private void forceUniformWidth(int count, int heightMeasureSpec) {
         // Pretend that the linear layout has an exact size.
+        // added circle width for increase wight of view and for correct calculation of weight
         int uniformMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth() - totalCircleWidth,
                 MeasureSpec.EXACTLY);
         for (int i = 0; i < count; ++i) {
@@ -880,16 +883,13 @@ public class AnimatedRadioGroup extends LinearLayout {
             if (child != null && child.getVisibility() != GONE) {
                 LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams) child.getLayoutParams());
 
-//                if (lp.width == LayoutParams.MATCH_PARENT) {
                 // Temporarily force children to reuse their old measured height
-                // FIXME: this may not be right for something like wrapping text?
                 int oldHeight = lp.height;
                 lp.height = child.getMeasuredHeight();
 
-                // Remeasue with new dimensions
                 measureChildWithMargins(child, uniformMeasureSpec, 0, heightMeasureSpec, 0);
                 lp.height = oldHeight;
-//                }
+
             }
         }
     }
@@ -943,16 +943,6 @@ public class AnimatedRadioGroup extends LinearLayout {
         // See how wide everyone is. Also remember max height.
         for (int i = 0; i < count; ++i) {
             final View child = getChildAt(i);
-            if (child == null) {
-//                mTotalLength += measureNullChild(i);
-                continue;
-            }
-
-            if (child.getVisibility() == GONE) {
-//                i += getChildrenSkipCount(child, i);
-                continue;
-            }
-
 
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
@@ -1010,15 +1000,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                 measureChildBeforeLayout(child, i, widthMeasureSpec, usedWidth,
                         heightMeasureSpec, 0);
 
-//                final int childWidth = child.getMeasuredWidth();
-                ////////////////////////
-                final int childWidth;
-//                if (hasDividerBeforeChildAt(i)) {
-                childWidth = child.getMeasuredWidth() + totalCircleWidth;
-//                } else {
-//                    childWidth = child.getMeasuredWidth() + TOTAL_CIRCLE_WIDTH;
-//                }
-                /////////////////
+                int childWidth = child.getMeasuredWidth() + totalCircleWidth;
                 if (useExcessSpace) {
                     // Restore the original width and record how much space
                     // we've allocated to excess-only children so that we can
@@ -1084,13 +1066,8 @@ public class AnimatedRadioGroup extends LinearLayout {
                 alternativeMaxHeight = Math.max(alternativeMaxHeight,
                         matchHeightLocally ? margin : childHeight);
             }
-
-//            i += getChildrenSkipCount(child, i);
         }
 
-//        if (mTotalLength > 0 && hasDividerBeforeChildAt(i)) {
-//            mTotalLength += separatorWidth;
-//        }
 
         // Check mMaxAscent[INDEX_TOP] first because it maps to Gravity.TOP,
         // the most common case
@@ -1113,28 +1090,14 @@ public class AnimatedRadioGroup extends LinearLayout {
 
             for (int i = 0; i < count; ++i) {
                 final View child = getChildAt(i);
-                if (child == null) {
-//                    mTotalLength += measureNullChild(i);
-                    continue;
-                }
-
-                if (child.getVisibility() == GONE) {
-//                    i += getChildrenSkipCount(child, i);
-                    continue;
-                }
-
                 final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)
                         child.getLayoutParams();
                 if (isExactly) {
-                    mTotalLength += largestChildWidth + lp.leftMargin + lp.rightMargin
-//                            + getNextLocationOffset(child)
-                    ;
+                    mTotalLength += largestChildWidth + lp.leftMargin + lp.rightMargin;
                 } else {
                     final int totalLength = mTotalLength;
                     mTotalLength = Math.max(totalLength, totalLength + largestChildWidth +
-                                    lp.leftMargin + lp.rightMargin
-//                            + getNextLocationOffset(child)
-                    );
+                                    lp.leftMargin + lp.rightMargin);
                 }
             }
         }
@@ -1207,13 +1170,10 @@ public class AnimatedRadioGroup extends LinearLayout {
 
                 if (isExactly) {
                     mTotalLength += child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
-//                            + getNextLocationOffset(child);
                 } else {
                     final int totalLength = mTotalLength;
                     mTotalLength = Math.max(totalLength, totalLength + child.getMeasuredWidth() +
-                                    lp.leftMargin + lp.rightMargin
-//                            + getNextLocationOffset(child)
-                    );
+                                    lp.leftMargin + lp.rightMargin);
                 }
 
                 boolean matchHeightLocally = heightMode != MeasureSpec.EXACTLY &&
@@ -1245,7 +1205,6 @@ public class AnimatedRadioGroup extends LinearLayout {
 
             // Add in our padding
             mTotalLength += getPaddingLeft() + getPaddingRight();
-            // TODO: Should we update widthSize with the new total length?
 
             // Check mMaxAscent[INDEX_TOP] first because it maps to Gravity.TOP,
             // the most common case
@@ -1368,7 +1327,6 @@ public class AnimatedRadioGroup extends LinearLayout {
         circles.clear();
 
         rects.clear();
-//        bgColors.clear();
 
         if (getOrientation() == VERTICAL) {
             layoutVertical(l, t, r, b);
@@ -1460,8 +1418,6 @@ public class AnimatedRadioGroup extends LinearLayout {
                         break;
                 }
 
-//                childHeight +=separatorWidth;
-
                 if (hasDividerBeforeChildAt(i)) {
                     childTop += lp.topMargin;
                     setChildFrame(child, childLeft, childLeft + childWidth, childTop,
@@ -1513,13 +1469,11 @@ public class AnimatedRadioGroup extends LinearLayout {
         switch (Gravity.getAbsoluteGravity(majorGravity, layoutDirection)) {
             case Gravity.RIGHT:
                 // mTotalLength contains the padding already
-                //todo: add circle paddings
                 childLeft = getPaddingLeft() + right - left - mTotalLength;
                 break;
 
             case Gravity.CENTER_HORIZONTAL:
                 // mTotalLength contains the padding already
-                //todo: add circle paddings
                 childLeft = getPaddingLeft() + (right - left - mTotalLength) / 2;
                 break;
 
@@ -1558,17 +1512,6 @@ public class AnimatedRadioGroup extends LinearLayout {
                         break;
 
                     case Gravity.CENTER_VERTICAL:
-                        // Removed support for baseline alignment when layout_gravity or
-                        // gravity == center_vertical. See bug #1038483.
-                        // Keep the code around if we need to re-enable this feature
-                        // if (childBaseline != -1) {
-                        //     // Align baselines vertically only if the child is smaller than us
-                        //     if (childSpace - childHeight > 0) {
-                        //         childTop = paddingTop + (childSpace / 2) - childBaseline;
-                        //     } else {
-                        //         childTop = paddingTop + (childSpace - childHeight) / 2;
-                        //     }
-                        // } else {
                         childTop = paddingTop + ((childSpace - childHeight) / 2)
                                 + lp.topMargin - lp.bottomMargin;
                         break;
@@ -1595,11 +1538,7 @@ public class AnimatedRadioGroup extends LinearLayout {
                             childHeight, HORIZONTAL);
                 }
 
-//                if (i + 1 != getChildCount()) {
                 childLeft += childWidth + lp.rightMargin + separatorWidth;
-//                } else  {
-//                    childLeft += childWidth + lp.rightMargin;
-//                }
             }
         }
     }
@@ -1642,9 +1581,12 @@ public class AnimatedRadioGroup extends LinearLayout {
             child.setBackgroundColor(Color.TRANSPARENT);
         }
         bgColors.add(color);
-//        totalCircleWidth = circlePaddingRight + circlePaddingLeft + circleRadius * 2 + (circleStrokeWidth * 2);
+        // Create circles by x and y
         circles.add(new PointF(left - circleRadius - circleStrokeWidth - circlePaddingRight, yAxis));
+
+        // Create rect for all view
         if (orientation == HORIZONTAL) {
+            // Create rect for all view
             rects.add(new Rect(left - totalCircleWidth, separatorMarginStart, right, getHeight() - separatorMarginEnd));
         } else {
             rects.add(new Rect(left - totalCircleWidth + separatorMarginStart, top, getWidth() - separatorMarginEnd, bottom));

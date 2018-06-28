@@ -74,10 +74,12 @@ public abstract class CanvasAnimator {
     }
 
     public void setDestinationPoint(PointF dst) {
+        // the specified point at which the animation ends
         this.dst = dst;
     }
 
     public void setSourcePoint(PointF src) {
+        // the specified point at which the animation starts
         this.src = src;
     }
 
