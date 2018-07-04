@@ -1,22 +1,24 @@
 # Animated-Radio-Group
-# The simple android library with nice animations.
+# The simple android radio group with nice animations.
 
 ## Features:
-  - Diffrent type of animations by default
-  - Add custom anniation
-  - Easily custom component
-  - Works like LinearLayout
-  - Can contains different child elements
+  - Support different type of animations by default
+  - You can easily add new animations
+  - Easily customizable component
+  - Works on the principle of LinearLayout
+  - Can contain different nested child elements
   
 ![demo](screenshots/preview.gif)
 
-# Usege
+# Usage
 ## Dependency:
 ```
+// in file build.gradle of application 
 dependencies {
     compile 'com.github.MIFProjects:Animated-Radio-Group:1.0.2'
 }
 
+// in file build.gradle of project
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
